@@ -1,24 +1,60 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import TopNavbar from './TopNavbar';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../Styles/muiTheme';
 import NewItemForm from './NewItemForm';
 import ItemListForm from './ItemListForm';
+import NewProductHeader from './NewProductHeader';
+import QuantityForm from './QuantityForm';
 
 export default function MainScreen() {
-	const [newMenuItem, setNewMenuItem] = useState({})
+	const [newMenuItem, setNewMenuItem] = useState({});
+	const [screen, setScreen] = useState(1);
+	const [validate, setValidate] = useState(false);
 
 	function handleState(obj) {
-		setNewMenuItem({ ...newMenuItem, ...obj })
+		setNewMenuItem({ ...newMenuItem, ...obj });
+	}
+
+	function nextScreen() {
+		if (
+			newMenuItem.name &&
+			newMenuItem.rationNumber &&
+			newMenuItem.category &&
+			newMenuItem.items
+		) {
+			setScreen(2);
+		} else setValidate(true);
+	}
+
+	function prevScreen() {
+		setScreen(1);
 	}
 
 	return (
-		<div>
-			<ThemeProvider theme={theme}>
-				<TopNavbar />
-				<NewItemForm stateShare={handleState} />
-				<ItemListForm stateShare={handleState} /> 
-			</ThemeProvider>
-		</div>
+		<ThemeProvider theme={theme}>
+			<TopNavbar prev={prevScreen} />
+
+			{screen === 1 && (
+				<NewItemForm stateShare={handleState} validate={validate} newMenuItem={newMenuItem} />
+			)}
+			{screen === 1 && (
+				<ItemListForm
+					newMenuItem={newMenuItem}
+					stateShare={handleState}
+					next={nextScreen}
+					validate={validate}
+				/>
+			)}
+			{screen === 2 && (
+				<NewProductHeader
+					newMenuItem={newMenuItem}
+					prev={prevScreen}
+				/>
+			)}
+			{screen === 2 && (
+				<QuantityForm newMenuItem={newMenuItem} />
+			)}
+		</ThemeProvider>
 	);
 }

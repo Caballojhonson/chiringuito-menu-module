@@ -10,7 +10,7 @@ import {
 import { Box } from '@mui/system';
 
 export default function NewItemForm(props) {
-	const [newItem, setNewItem] = useState({});
+	const [newItem, setNewItem] = useState(props.newMenuItem || {});
 
 	const categories = [
 		'Entrante',
@@ -33,8 +33,8 @@ export default function NewItemForm(props) {
 			<Typography variant="h6">Nueva referencia</Typography>
 			<Box sx={{ m: 1 }}>
 				<TextField
-				error
-					helperText='Ponle nombre, hostia!'
+					error={props.validate && !newItem.name ? true : false}
+					helperText={props.validate && !newItem.rationNumber ? 'Ponle nombre, hostia!' : ''}
 					fullWidth
 					id="outlined-search"
 					type="search"
@@ -46,8 +46,8 @@ export default function NewItemForm(props) {
 				/>
 				<Box sx={{ display: 'flex' }}>
 					<TextField
-					error
-						helperText='Por favor...'
+						error={props.validate && !newItem.rationNumber ? true : false}
+						helperText={props.validate && !newItem.rationNumber ? 'Por favor...' : ''}
 						sx={{ width: '50%' }}
 						id="outlined-required"
 						type='number'
@@ -58,10 +58,12 @@ export default function NewItemForm(props) {
 						onChange={handleChange}
 						margin="normal"
 					/>
-					<FormControl fullWidth sx={{ marginTop: 2, marginLeft: 1 }}>
+					<FormControl 
+						fullWidth 
+						sx={{ marginTop: 2, marginLeft: 1 }} 
+						error={props.validate && !newItem.category ? true : false}>
 						<InputLabel>Categoría</InputLabel>
 						<Select
-						error
 							labelId="category-label"
 							name="category"
 							value={newItem.category}

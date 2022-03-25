@@ -17,7 +17,7 @@ import Grid from '@mui/material/Grid';
 export default function ItemListForm(props) {
 	const [products, setProducts] = useState('');
     const [selectedProduct, setSelectedProduct] = useState('')
-    const [addedProducts, setAddedProducts] = useState([])
+    const [addedProducts, setAddedProducts] = useState(props.newMenuItem.items || [])
 
 	useEffect(() => {
 		getProducts()
@@ -36,6 +36,10 @@ export default function ItemListForm(props) {
         addProduct(selected)
 		setSelectedProduct('')
     }
+
+	function handleNext() {
+		props.next()
+	}
 
 	function addProduct(product) {
 		product && setAddedProducts(prev => [...prev, product])
@@ -70,6 +74,9 @@ export default function ItemListForm(props) {
 					renderInput={(params) => (
 						<TextField
 							{...params}
+							error={props.validate && !addedProducts.length ? true : false}
+							helperText={props.validate && !addedProducts.length ? 
+										'¿Vas a escandallar la nada?' : ''}
 							label="Selecciona un producto"
                             variant='standard'
 							inputProps={{
@@ -147,8 +154,8 @@ export default function ItemListForm(props) {
 						mt: 3,
 					}}
 				>
-					<Fab color="secondary" aria-label="add" variant="extended">
-					<PlaylistAddCheckIcon sx={{mr:1}} />
+					<Fab color="secondary" aria-label="add" variant="extended" onClick={handleNext}>
+						<PlaylistAddCheckIcon sx={{mr:1}} />
 						Siguiente
 					</Fab>
 				</Box>
