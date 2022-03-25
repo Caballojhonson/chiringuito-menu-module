@@ -93,7 +93,7 @@ export default function ItemListForm(props) {
 	function ProductBox(props) {
 		const unitPrice = () => {
 			if(props.item.packQuantity) {
-				return (props.item.price / props.item.packQuantity).toFixed(2)
+				return ` | ${(props.item.price / props.item.packQuantity).toFixed(2)}€ / Unidad`
 			} else return ''
 		}
 		const productPrice = props.item.price.toFixed(2)
@@ -116,8 +116,8 @@ export default function ItemListForm(props) {
 					</ListItemAvatar>
 					<ListItemText
 					  primary={props.item.name}
-					  secondary={`${productPrice}€ / ${productFormat} | 
-					  ${unitPrice()}€ / Unidad`}
+					  secondary={`${productPrice}€ / ${productFormat} 
+					  ${unitPrice()}`}
 					  secondaryTypographyProps={{fontSize: '0.7rem', fontWeight: 900}}
 					/>
 				  </ListItem>

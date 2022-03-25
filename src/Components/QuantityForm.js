@@ -2,11 +2,11 @@ import {
 	Box,
 	Typography,
 	ListItem,
-	TextField,
 	ListItemText,
 	InputAdornment,
 	FormControl,
 	Input,
+    FormHelperText
 } from '@mui/material';
 import React from 'react';
 
@@ -24,27 +24,38 @@ export default function QuantityForm(props) {
 		else return 'Uni';
 	};
 
+	function handleChange(e) {
+		const id = e.target.name;
+		const quantity = e.target.value;
+		props.addQuantity(quantity, id);
+	}
+
+    const totalPrice = (item) => {
+        return item.packQuantity ? `${(item.price / item.packQuantity * item.quantity).toFixed(2)}€` : ''
+    }
+
 	const productList = newMenuItem.items.map((item) => {
+        
 		return (
 			<ListItem
 				secondaryAction={
-					<FormControl variant="standard">
+					<FormControl>
 						<Input
 							// error={props.validate && !newItem.name ? true : false}
-							//helperText={props.validate && !newItem.rationNumber ? 'Ponle nombre, hostia!' : ''}
+							label='koko'
 							sx={{ width: '5rem' }}
 							endAdornment={
-								<InputAdornment sx={{ fontSize: '0.6rem' }} position="end">
+                                <InputAdornment sx={{ fontSize: '0.6rem' }} position="end">
 									{adornmentTag(item)}
 								</InputAdornment>
 							}
 							size="small"
-							name="name"
+							name={item._id}
 							type="number"
 							inputProps={{ style: { textAlign: 'center' } }}
-							// value={newItem.name}
-							// onChange={handleChange}
+							onChange={handleChange}
 						/>
+                            <FormHelperText>{totalPrice(item)}</FormHelperText>
 					</FormControl>
 				}
 			>

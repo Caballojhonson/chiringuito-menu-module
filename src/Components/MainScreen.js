@@ -16,6 +16,15 @@ export default function MainScreen() {
 		setNewMenuItem({ ...newMenuItem, ...obj });
 	}
 
+	function addQuantity(quantity, id){
+		const matchingItemIndex = newMenuItem.items.findIndex(item => item._id === id)
+		const oldState = newMenuItem
+		const item = oldState.items[matchingItemIndex]
+		item.quantity = quantity
+		newMenuItem.items[matchingItemIndex] = item
+		setNewMenuItem(oldState)
+	}
+
 	function nextScreen() {
 		if (
 			newMenuItem.name &&
@@ -53,7 +62,7 @@ export default function MainScreen() {
 				/>
 			)}
 			{screen === 2 && (
-				<QuantityForm newMenuItem={newMenuItem} />
+				<QuantityForm newMenuItem={newMenuItem} addQuantity={addQuantity} />
 			)}
 		</ThemeProvider>
 	);
