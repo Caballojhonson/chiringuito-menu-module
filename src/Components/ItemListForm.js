@@ -1,5 +1,5 @@
-import { Box, Typography, Autocomplete, TextField, Fab } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { Box, Typography, Autocomplete, TextField, Fab, Collapse } from '@mui/material';
+import { TransitionGroup } from 'react-transition-group';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -36,6 +36,7 @@ export default function ItemListForm() {
     function handleSelect(event, selected) {
         setSelectedProduct(selected)
         addProduct(selected)
+		setSelectedProduct('')
     }
 
 	function addProduct(product) {
@@ -93,9 +94,7 @@ export default function ItemListForm() {
 		const productFormat = props.item.format
 
 		return(
-			<Grid item xs={12} md={6}>
-			  <List dense='false'>
-				
+
 				  <ListItem
 					secondaryAction={
 					  <IconButton edge="end" aria-label="delete"
@@ -117,14 +116,15 @@ export default function ItemListForm() {
 					  secondaryTypographyProps={{fontSize: '0.7rem', fontWeight: 900}}
 					/>
 				  </ListItem>
-			  </List>
-		  </Grid> 
+
 		)
 	}
 
 	const renderProductBoxes = addedProducts.map(item => {
 			return(
-				<ProductBox item={item} />
+				<Collapse key={item._id}>
+					<ProductBox item={item} />
+				</Collapse>
 			)
 		})
 
@@ -132,7 +132,15 @@ export default function ItemListForm() {
 			<Box sx={{ margin: '1rem 1.5rem 1rem 1.5rem' }}>
 				<Typography variant="h6">Productos</Typography>
 
-				{renderProductBoxes}
+
+			<Grid item xs={12} md={6}>
+			  	<List dense>
+					<TransitionGroup>
+						{renderProductBoxes}
+					</TransitionGroup>
+				</List>
+		    </Grid> 
+
 				<ProductSelect />
 
 				<Box
