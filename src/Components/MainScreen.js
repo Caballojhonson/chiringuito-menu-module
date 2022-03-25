@@ -3,6 +3,7 @@ import TopNavbar from './TopNavbar';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../Styles/muiTheme';
 import NewItemForm from './NewItemForm';
+import ItemListForm from './ItemListForm';
 
 export default function MainScreen() {
 	return (
@@ -10,6 +11,7 @@ export default function MainScreen() {
 			<ThemeProvider theme={theme}>
 				<TopNavbar />
 				<NewItemForm />
+				<ItemListForm  /> 
 			</ThemeProvider>
 		</div>
 	);

@@ -6,7 +6,7 @@ export default function NewItemForm() {
 	const mockList = ['Entrante', 'Aperitivo', 'Postre'];
 
 	return (
-		<div>
+
 			<Box sx={{ margin: '1rem 1.5rem 1rem 1.5rem' }}>
 				<Typography variant="h6">Nueva referencia</Typography>
 				<Box sx={{ m: 1 }}>
@@ -37,6 +37,6 @@ export default function NewItemForm() {
 					</Box>
 				</Box>
 			</Box>
-		</div>
+
 	);
 }

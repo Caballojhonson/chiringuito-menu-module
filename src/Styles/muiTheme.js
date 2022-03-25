@@ -13,14 +13,14 @@ export const theme = createTheme({
         primary: {
             light: '#757ce8',
             main: '#ff69b4',
-            dark: '#002884',
+            dark: '#B33775',
             contrastText: '#4b4646',
         },
         secondary: {
-            light: '#ff7961',
-            main: '#f44336',
+            light: '#4FE9FF',
+            main: '#40A4B3',
             dark: '#ba000d',
-            contrastText: '#000',
+            contrastText: '#23272E',
         },
     },
 });
