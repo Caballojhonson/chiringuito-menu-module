@@ -14,7 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 
 
-export default function ItemListForm() {
+export default function ItemListForm(props) {
 	const [products, setProducts] = useState('');
     const [selectedProduct, setSelectedProduct] = useState('')
     const [addedProducts, setAddedProducts] = useState([])
@@ -39,6 +39,7 @@ export default function ItemListForm() {
 
 	function addProduct(product) {
 		product && setAddedProducts(prev => [...prev, product])
+		product && props.stateShare({items: [...addedProducts, product]})
     }
 	
 	function deleteProduct(id) {

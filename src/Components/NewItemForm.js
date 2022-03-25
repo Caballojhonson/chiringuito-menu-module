@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-	Autocomplete,
 	TextField,
 	Typography,
 	FormControl,
@@ -10,7 +9,7 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 
-export default function NewItemForm() {
+export default function NewItemForm(props) {
 	const [newItem, setNewItem] = useState({});
 
 	const categories = [
@@ -26,6 +25,7 @@ export default function NewItemForm() {
 		const value = e.target.value;
 
 		setNewItem({ ...newItem, [name]: value });
+		props.stateShare({ ...newItem, [name]: value })
 	}
 
 	return (
@@ -33,6 +33,8 @@ export default function NewItemForm() {
 			<Typography variant="h6">Nueva referencia</Typography>
 			<Box sx={{ m: 1 }}>
 				<TextField
+				error
+					helperText='Ponle nombre, hostia!'
 					fullWidth
 					id="outlined-search"
 					type="search"
@@ -44,8 +46,12 @@ export default function NewItemForm() {
 				/>
 				<Box sx={{ display: 'flex' }}>
 					<TextField
+					error
+						helperText='Por favor...'
 						sx={{ width: '50%' }}
 						id="outlined-required"
+						type='number'
+						inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
 						label="Nº Raciones"
 						name="rationNumber"
 						value={newItem.rationNumber}
@@ -55,6 +61,7 @@ export default function NewItemForm() {
 					<FormControl fullWidth sx={{ marginTop: 2, marginLeft: 1 }}>
 						<InputLabel>Categoría</InputLabel>
 						<Select
+						error
 							labelId="category-label"
 							name="category"
 							value={newItem.category}
