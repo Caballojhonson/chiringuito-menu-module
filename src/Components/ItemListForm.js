@@ -23,8 +23,6 @@ export default function ItemListForm() {
 		getProducts()
 	}, []);
 
-
-
 	async function getProducts() {
 		const products = await axios
 			.get('https://chiringuito-api.herokuapp.com/api/items')
@@ -94,7 +92,6 @@ export default function ItemListForm() {
 		const productFormat = props.item.format
 
 		return(
-
 				  <ListItem
 					secondaryAction={
 					  <IconButton edge="end" aria-label="delete"
@@ -116,7 +113,6 @@ export default function ItemListForm() {
 					  secondaryTypographyProps={{fontSize: '0.7rem', fontWeight: 900}}
 					/>
 				  </ListItem>
-
 		)
 	}
 
@@ -131,7 +127,6 @@ export default function ItemListForm() {
 	return (
 			<Box sx={{ margin: '1rem 1.5rem 1rem 1.5rem' }}>
 				<Typography variant="h6">Productos</Typography>
-
 
 			<Grid item xs={12} md={6}>
 			  	<List dense>
