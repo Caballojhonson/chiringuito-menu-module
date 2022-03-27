@@ -16,6 +16,13 @@ export default function MainScreen() {
 		setNewMenuItem({ ...newMenuItem, ...obj });
 	}
 
+	function removeItem(id) {
+		const newItemsArray = newMenuItem.items.filter(item => item._id !== id)
+		const oldMenuItem = newMenuItem
+		oldMenuItem.items = newItemsArray
+		setNewMenuItem(oldMenuItem)
+	}
+
 	function addQuantity(quantity, id){
 		const matchingItemIndex = newMenuItem.items.findIndex(item => item._id === id)
 		const oldState = newMenuItem
@@ -51,6 +58,7 @@ export default function MainScreen() {
 				<ItemListForm
 					newMenuItem={newMenuItem}
 					stateShare={handleState}
+					removeItem={removeItem}
 					next={nextScreen}
 					validate={validate}
 				/>

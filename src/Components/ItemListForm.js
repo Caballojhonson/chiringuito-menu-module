@@ -48,6 +48,7 @@ export default function ItemListForm(props) {
 	
 	function deleteProduct(id) {
 		setAddedProducts(addedProducts.filter(item => item._id !== id))
+		props.removeItem(id)
 	}
 
 	function ProductSelect() {
