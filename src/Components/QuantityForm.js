@@ -29,12 +29,12 @@ export default function QuantityForm(props) {
 	function handleChange(e) {
 		const id = e.target.name;
 		const quantity = e.target.value;
-		props.addQuantity(quantity, id);
-        setQuantities({...quantities, [id]: quantity})
+		props.addQuantity(Number(quantity), id);
+        setQuantities({...quantities, [id]: Number(quantity)})
 	}
 
     const totalPrice = (item) => {
-        const total = `${(item.price / item.packQuantity * quantities[item._id]).toFixed(2)}€`
+        const total = `${(item.price / (item.packQuantity || 1) * quantities[item._id]).toFixed(2)}€`
 
         if(total !== 'NaN€') return total 
         else return ''
