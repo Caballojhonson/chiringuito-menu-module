@@ -71,7 +71,7 @@ export default function NewItemForm(props) {
 							onChange={handleChange}
 						>
 							{categories.map((item) => (
-								<MenuItem value={item}>{item}</MenuItem>
+								<MenuItem key={item} value={item}>{item}</MenuItem>
 							))}
 						</Select>
 					</FormControl>

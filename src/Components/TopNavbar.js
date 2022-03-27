@@ -13,13 +13,14 @@ export default function TopNavbar(props) {
 			<AppBar position="sticky">
 				<Toolbar>
 					<IconButton
+						onClick={props.prev}
 						size="small"
 						edge="start"
 						color="inherit"
 						aria-label="back"
 						sx={{ mr: 2 }}
 					>
-						<ArrowBackIosNewIcon fontSize='6rem' onClick={props.prev} />
+						<ArrowBackIosNewIcon fontSize='6rem' />
 					</IconButton>
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 						Escandallar

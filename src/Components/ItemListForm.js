@@ -15,7 +15,7 @@ import Grid from '@mui/material/Grid';
 
 
 export default function ItemListForm(props) {
-	const [products, setProducts] = useState('');
+	const [products, setProducts] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState('')
     const [addedProducts, setAddedProducts] = useState(props.newMenuItem.items || [])
 
