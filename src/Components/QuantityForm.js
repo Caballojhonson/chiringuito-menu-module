@@ -8,10 +8,12 @@ import {
 	Input,
     FormHelperText
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function QuantityForm(props) {
 	const { newMenuItem } = props;
+
+    const [quantities, setQuantities] = useState({})
 
 	const unitPrice = (item) => {
 		if (item.packQuantity) {
@@ -28,19 +30,24 @@ export default function QuantityForm(props) {
 		const id = e.target.name;
 		const quantity = e.target.value;
 		props.addQuantity(quantity, id);
+        setQuantities({...quantities, [id]: quantity})
 	}
 
     const totalPrice = (item) => {
-        return item.packQuantity ? `${(item.price / item.packQuantity * item.quantity).toFixed(2)}€` : ''
+        const total = `${(item.price / item.packQuantity * quantities[item._id]).toFixed(2)}€`
+
+        if(total !== 'NaN€') return total 
+        else return ''
     }
 
 	const productList = newMenuItem.items.map((item) => {
         
 		return (
 			<ListItem
+                key={item._id}
 				secondaryAction={
-					<FormControl>
-						<Input
+					<FormControl >
+						<Input 
 							// error={props.validate && !newItem.name ? true : false}
 							label='koko'
 							sx={{ width: '5rem' }}
@@ -49,7 +56,9 @@ export default function QuantityForm(props) {
 									{adornmentTag(item)}
 								</InputAdornment>
 							}
+                            variant='filled'
 							size="small"
+                            margin='dense'
 							name={item._id}
 							type="number"
 							inputProps={{ style: { textAlign: 'center' } }}

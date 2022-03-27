@@ -43,6 +43,7 @@ export default function NewItemForm(props) {
 					value={newItem.name}
 					onChange={handleChange}
 					margin="normal"
+					autoComplete='off'
 				/>
 				<Box sx={{ display: 'flex' }}>
 					<TextField
@@ -58,7 +59,7 @@ export default function NewItemForm(props) {
 						onChange={handleChange}
 						margin="normal"
 					/>
-					<FormControl 
+					<FormControl
 						fullWidth 
 						sx={{ marginTop: 2, marginLeft: 1 }} 
 						error={props.validate && !newItem.category ? true : false}>
