@@ -9,11 +9,14 @@ import {
     FormHelperText
 } from '@mui/material';
 import React, { useState } from 'react';
+import CostAndMargin from './CostAndMargin';
 
 export default function QuantityForm(props) {
 	const { newMenuItem } = props;
 
     const [quantities, setQuantities] = useState({})
+    const [totalCost, setTotalCost] = useState(getTotalCost())
+    const [costPerUnit, setCostPerUnit] = useState(getCostPerUnit())
 
 	const unitPrice = (item) => {
 		if (item.packQuantity) {
@@ -31,26 +34,35 @@ export default function QuantityForm(props) {
 		const quantity = e.target.value;
 		props.addQuantity(Number(quantity), id);
         setQuantities({...quantities, [id]: Number(quantity)})
+        setTotalCost(getTotalCost()) 
+        setCostPerUnit(getCostPerUnit())
 	}
 
-    const totalPrice = (item) => {
+    const totalProductCost = (item) => {
         const total = `${(item.price / (item.packQuantity || 1) * quantities[item._id]).toFixed(2)}€`
 
         if(total !== 'NaN€') return total 
         else return ''
     }
 
+    function getTotalCost() {
+    const total = newMenuItem.items.reduce((a,b) => 
+    a + (b.quantity * b.price / (b.packQuantity || 1)) ,0)
+    return total || 0
+    }
+
+    function getCostPerUnit() {
+        return totalCost / newMenuItem.rationNumber
+    }
+
 	const productList = newMenuItem.items.map((item) => {
-        
 		return (
 			<ListItem
                 key={item._id}
 				secondaryAction={
 					<FormControl >
 						<Input 
-							// error={props.validate && !newItem.name ? true : false}
-							label='koko'
-							sx={{ width: '5rem' }}
+							sx={{ width: '5rem', pl: '1.2rem', backgroundColor: 'white' }}
 							endAdornment={
                                 <InputAdornment sx={{ fontSize: '0.6rem' }} position="end">
 									{adornmentTag(item)}
@@ -64,7 +76,7 @@ export default function QuantityForm(props) {
 							inputProps={{ style: { textAlign: 'center' } }}
 							onChange={handleChange}
 						/>
-                            <FormHelperText>{totalPrice(item)}</FormHelperText>
+                            <FormHelperText>{totalProductCost(item)}</FormHelperText>
 					</FormControl>
 				}
 			>
@@ -75,13 +87,14 @@ export default function QuantityForm(props) {
 					secondaryTypographyProps={{ fontSize: '0.7rem', fontWeight: 900 }}
 				/>
 			</ListItem>
-		);
-	});
+		)
+	})
 
 	return (
 		<Box sx={{ margin: '1rem 1.5rem 1rem 1.5rem' }}>
 			<Typography variant="h6">Cantidades</Typography>
 			{productList}
+            <CostAndMargin totalCost={totalCost} costPerUnit={costPerUnit} />
 		</Box>
 	);
 }

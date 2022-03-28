@@ -6,6 +6,7 @@ import NewItemForm from './NewItemForm';
 import ItemListForm from './ItemListForm';
 import NewProductHeader from './NewProductHeader';
 import QuantityForm from './QuantityForm';
+import CostAndMargin from './CostAndMargin';
 
 export default function MainScreen() {
 	const [newMenuItem, setNewMenuItem] = useState({});
