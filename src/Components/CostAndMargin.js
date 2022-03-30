@@ -5,13 +5,17 @@ import {
 	FormControl,
 	Grid,
 	Input,
+    InputAdornment,
 	List,
 	ListItem,
 	ListItemText,
 	TextField,
 	Typography,
 	Slider,
+    LinearProgress,
 } from '@mui/material';
+import RemoveCircleOutlineRoundedIcon from '@mui/icons-material/RemoveCircleOutlineRounded';
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import React, { useEffect, useState } from 'react';
 
 export default function CostAndMargin(props) {
@@ -24,15 +28,17 @@ export default function CostAndMargin(props) {
       setFinalPrice(costPerUnit() * margin / 100)
     }, [totalCost])
     
-    
-
 	function handleSlider(e, value) {
 		setMargin(value);
 		setFinalPrice((value * costPerUnit()) / 100);
 	}
 
-    function handlePriceInput(e, value) {
-        setFinalPrice(value)
+    function handlePriceInput(e) {
+        console.log(e.target.value)
+        const price = e.target.value
+        console.log(price)
+        console.log(Math.round(price / costPerUnit() * 100))
+        setMargin(Math.round(price / costPerUnit() * 100))
     }
 
     function valueLabelFormat(val) {
@@ -42,6 +48,23 @@ export default function CostAndMargin(props) {
     function costPerUnit() {
         return totalCost / newMenuItem.rationNumber
     }
+
+    function LinearProgressWithLabel(props) {
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ width: '100%', mr: 1 }}>
+              <LinearProgress variant="determinate" {...props} />
+            </Box>
+            <Box sx={{ minWidth: 35 }}>
+              <Typography variant="body2" color="text.secondary">{`${Math.round(
+                props.label,
+              )}%`}</Typography>
+            </Box>
+          </Box>
+        );
+      }
+
+      const normalise = (value) => ((value - 100) * 100) / (1000 - 100);
 
 	function CostItem(props) {
 		return (
@@ -75,7 +98,7 @@ export default function CostAndMargin(props) {
 		);
 	}
 
-	function FinalPriceInput() {
+	function FinalPriceFixed() {
 		return (
 			<Grid container sx={{ alignItems: 'end' }}>
 				<Grid item xs>
@@ -83,7 +106,10 @@ export default function CostAndMargin(props) {
 				</Grid>
 				<Grid item xs={5}>
 					<TextField
-						value={`${finalPrice.toFixed(2)}€`}
+						value={finalPrice.toFixed(2)}
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end">€</InputAdornment>,
+                          }}
                         onChange={handlePriceInput}
 						label="PVP"
 						variant="filled"
@@ -91,6 +117,45 @@ export default function CostAndMargin(props) {
 				</Grid>
 				<Grid item>
 					<Button variant="contained">Redondear</Button>
+				</Grid>
+			</Grid>
+		);
+	}
+
+    function FinalPriceManual() {
+		return (
+			<Grid container sx={{ alignItems: 'end' }}>
+				<Grid item xs>
+					<CostItem 
+                    primary="PVP" 
+                    secondary="Precio venta" 
+                    input={
+                    <Box sx={{display: 'flex', }}>
+                        <RemoveCircleOutlineRoundedIcon 
+                            sx={{ml: '0.5rem', mr: '0.5rem'}} 
+                            fontSize='large' 
+                            onClick={() => {
+                                setFinalPrice(prev => prev - 0.1)
+                                setMargin(Math.round(finalPrice / costPerUnit() * 100))
+                            }
+                            }
+                        />
+
+                        <Typography sx={{ fontSize: '1.2rem' }} variant="button">
+                            {(Math.round(finalPrice * 10) / 10).toFixed(2) + '€'}
+                        </Typography>
+
+                        <AddCircleOutlineRoundedIcon 
+                            sx={{ml: '0.5rem', mr: '0.5rem'}} 
+                            fontSize='large' 
+                            onClick={() => {
+                                setFinalPrice(prev => prev + 0.1)
+                                setMargin(Math.round(finalPrice / costPerUnit() * 100))
+                            }
+                            }
+                        />
+                    </Box>} />
+                        <LinearProgressWithLabel value={normalise(margin)} label={margin} />
 				</Grid>
 			</Grid>
 		);
@@ -106,7 +171,8 @@ export default function CostAndMargin(props) {
 					secondary="Por ración"
 					quantity={`${costPerUnit().toFixed(2)}€`}
 				/>
-				<FinalPriceInput />
+				<FinalPriceFixed />
+                <FinalPriceManual  />
 				{/* <CostItem primary='COSTE' secondary='Total escandallo' quantity={`${totalCost && totalCost.toFixed(2)}€`} /> */}
 			</List>
 			<Slider
