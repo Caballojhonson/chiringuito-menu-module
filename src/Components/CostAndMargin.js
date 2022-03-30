@@ -15,15 +15,20 @@ import {
 import React, { useEffect, useState } from 'react';
 
 export default function CostAndMargin(props) {
-	const { newMenuItem, totalCost, costPerUnit } = props;
+	const { newMenuItem, totalCost } = props;
 
 	const [margin, setMargin] = useState(300);
-	const [finalPrice, setFinalPrice] = useState(costPerUnit * margin);
+	const [finalPrice, setFinalPrice] = useState(costPerUnit() * margin);
+
+    useEffect(() => {
+      setFinalPrice(costPerUnit() * margin / 100)
+    }, [totalCost])
+    
     
 
 	function handleSlider(e, value) {
 		setMargin(value);
-		setFinalPrice((value * costPerUnit) / 100);
+		setFinalPrice((value * costPerUnit()) / 100);
 	}
 
     function handlePriceInput(e, value) {
@@ -34,13 +39,15 @@ export default function CostAndMargin(props) {
         return `${val}%`
     }
 
+    function costPerUnit() {
+        return totalCost / newMenuItem.rationNumber
+    }
+
 	function CostItem(props) {
 		return (
 			<div>
 				<ListItem
 					button
-					disableTypography
-					inset
 					secondaryAction={
 						props.input || (
 							<Typography sx={{ fontSize: '1.2rem' }} variant="button">
@@ -97,7 +104,7 @@ export default function CostAndMargin(props) {
 				<CostItem
 					primary="COSTE"
 					secondary="Por ración"
-					quantity={`${costPerUnit.toFixed(2)}€`}
+					quantity={`${costPerUnit().toFixed(2)}€`}
 				/>
 				<FinalPriceInput />
 				{/* <CostItem primary='COSTE' secondary='Total escandallo' quantity={`${totalCost && totalCost.toFixed(2)}€`} /> */}

@@ -16,7 +16,7 @@ export default function QuantityForm(props) {
 
     const [quantities, setQuantities] = useState({})
     const [totalCost, setTotalCost] = useState(getTotalCost())
-    const [costPerUnit, setCostPerUnit] = useState(getCostPerUnit())
+    //const [costPerUnit, setCostPerUnit] = useState(getCostPerUnit())
 
 	const unitPrice = (item) => {
 		if (item.packQuantity) {
@@ -35,7 +35,7 @@ export default function QuantityForm(props) {
 		props.addQuantity(Number(quantity), id);
         setQuantities({...quantities, [id]: Number(quantity)})
         setTotalCost(getTotalCost()) 
-        setCostPerUnit(getCostPerUnit())
+        // setCostPerUnit(getCostPerUnit())
 	}
 
     const totalProductCost = (item) => {
@@ -51,9 +51,9 @@ export default function QuantityForm(props) {
     return total || 0
     }
 
-    function getCostPerUnit() {
-        return totalCost / newMenuItem.rationNumber
-    }
+    // function getCostPerUnit() {
+    //     return totalCost / newMenuItem.rationNumber
+    // }
 
 	const productList = newMenuItem.items.map((item) => {
 		return (
@@ -94,7 +94,7 @@ export default function QuantityForm(props) {
 		<Box sx={{ margin: '1rem 1.5rem 1rem 1.5rem' }}>
 			<Typography variant="h6">Cantidades</Typography>
 			{productList}
-            <CostAndMargin totalCost={totalCost} costPerUnit={costPerUnit} />
+            <CostAndMargin totalCost={totalCost} newMenuItem={newMenuItem} />
 		</Box>
 	);
 }

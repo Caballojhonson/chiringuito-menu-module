@@ -18,6 +18,7 @@ export default function NewItemForm(props) {
 		'Principal',
 		'Bocadillo',
 		'Snack',
+		'Postre'
 	];
 
 	function handleChange(e) {
@@ -55,7 +56,7 @@ export default function NewItemForm(props) {
 						inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
 						label="Nº Raciones"
 						name="rationNumber"
-						value={newItem.rationNumber}
+						value={Number(newItem.rationNumber)}
 						onChange={handleChange}
 						margin="normal"
 					/>
