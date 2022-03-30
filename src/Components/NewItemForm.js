@@ -13,12 +13,14 @@ export default function NewItemForm(props) {
 	const [newItem, setNewItem] = useState(props.newMenuItem || {});
 
 	const categories = [
-		'Entrante',
 		'Aperitivo',
+		'Entrante',
 		'Principal',
-		'Bocadillo',
+		'Guarnición',
+		'Postre',
 		'Snack',
-		'Postre'
+		'Bocadillo',
+		'Salsa',
 	];
 
 	function handleChange(e) {

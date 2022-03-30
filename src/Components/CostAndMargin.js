@@ -14,6 +14,7 @@ import {
 	Slider,
     LinearProgress,
     Stack,
+    Paper
 } from '@mui/material';
 import RemoveCircleOutlineRoundedIcon from '@mui/icons-material/RemoveCircleOutlineRounded';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
@@ -164,40 +165,45 @@ export default function CostAndMargin(props) {
                         </Box>
                     } 
                     />
-
-                    <Typography variant='overline' color='text.secondary'>Margen de beneficio</Typography>
-                    <LinearProgressWithLabel value={normalise(margin)} label={margin}  />
-                    <Typography variant='overline' color='text.secondary'>Coste / Pvp</Typography>
-                    <LinearProgressWithLabel value={costPerUnit() / finalPrice  * 100} label={costPerUnit() / finalPrice  * 100}  />
-                    <CostItem primary="Tajada" secondary="Beneficio" quantity={(finalPrice - costPerUnit()).toFixed(2) + '€'} />
 				</Grid>
 			</Grid>
 		);
 	}
 
+    function ProgressBar(props) {
+        const { title, value, progressLabel } = props
+        return(
+            <Box>
+                <Typography  variant='overline' color='text.secondary'>{title}</Typography>
+                <LinearProgressWithLabel value={value} label={progressLabel}  />
+            </Box>
+
+        )
+    }
+
 	return (
 		<Box >
-			<Typography variant="h6">Margen y PVP</Typography>
-
 			<List component="nav" aria-label="Cost and margin list">
+                <FinalPriceManual  />
 				<CostItem
 					primary="COSTE"
 					secondary="Por ración"
 					quantity={`${costPerUnit().toFixed(2)}€`}
 				/>
+                <CostItem primary="diferencial" secondary="Beneficio" quantity={(finalPrice - costPerUnit()).toFixed(2) + '€'} />
 				{/* <FinalPriceFixed /> */}
-                <FinalPriceManual  />
 				{/* <CostItem primary='COSTE' secondary='Total escandallo' quantity={`${totalCost && totalCost.toFixed(2)}€`} /> */}
-			</List>
-            <Typography variant='overline' color='text.secondary'>Margen de beneficio</Typography>
-			<Slider
+                <ProgressBar title='margen de beneficio' value={normalise(margin)} progressLabel={margin}  />
+                <Slider
 				onChange={handleSlider}
 				defaultValue={300}
 				min={100}
 				max={500}
                 valueLabelFormat={valueLabelFormat}
-				valueLabelDisplay="on"
 			/>
+
+                <ProgressBar title='Coste / Pvp' value={costPerUnit() / finalPrice  * 100} progressLabel={(costPerUnit() / finalPrice  * 100) || 0}  />
+			</List>
 		</Box>
 	);
 }
