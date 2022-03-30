@@ -13,6 +13,7 @@ import {
 	Typography,
 	Slider,
     LinearProgress,
+    Stack,
 } from '@mui/material';
 import RemoveCircleOutlineRoundedIcon from '@mui/icons-material/RemoveCircleOutlineRounded';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
@@ -53,7 +54,7 @@ export default function CostAndMargin(props) {
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ width: '100%', mr: 1 }}>
-              <LinearProgress variant="determinate" {...props} />
+              <LinearProgress color='secondary' variant="determinate" {...props} />
             </Box>
             <Box sx={{ minWidth: 35 }}>
               <Typography variant="body2" color="text.secondary">{`${Math.round(
@@ -64,7 +65,13 @@ export default function CostAndMargin(props) {
         );
       }
 
-      const normalise = (value) => ((value - 100) * 100) / (1000 - 100);
+    const normalise = (value) => ((value - 100) * 100) / (500 - 100);
+
+    function priceColor(margin) {
+        if (margin < 150 || margin > 450) return 'red'
+        if (margin < 200 || margin > 400) return 'orange'
+        if (margin > 200 && margin < 400) return 'green'
+    }
 
 	function CostItem(props) {
 		return (
@@ -130,32 +137,39 @@ export default function CostAndMargin(props) {
                     primary="PVP" 
                     secondary="Precio venta" 
                     input={
-                    <Box sx={{display: 'flex', }}>
-                        <RemoveCircleOutlineRoundedIcon 
-                            sx={{ml: '0.5rem', mr: '0.5rem'}} 
-                            fontSize='large' 
-                            onClick={() => {
-                                setFinalPrice(prev => prev - 0.1)
-                                setMargin(Math.round(finalPrice / costPerUnit() * 100))
-                            }
-                            }
-                        />
+                        <Box sx={{display: 'flex', }}>
+                            <RemoveCircleOutlineRoundedIcon 
+                                sx={{ml: '0.5rem', mr: '0.5rem'}} 
+                                fontSize='large' 
+                                onClick={() => {
+                                    setFinalPrice(prev => prev - 0.1)
+                                    setMargin(Math.round(finalPrice / costPerUnit() * 100))
+                                }
+                                }
+                            />
 
-                        <Typography sx={{ fontSize: '1.2rem' }} variant="button">
-                            {(Math.round(finalPrice * 10) / 10).toFixed(2) + '€'}
-                        </Typography>
+                            <Typography sx={{ fontSize: '1.2rem', color: `${priceColor(margin)}` }}  variant="button">
+                                {(Math.round(finalPrice * 10) / 10).toFixed(2) + '€'}
+                            </Typography>
 
-                        <AddCircleOutlineRoundedIcon 
-                            sx={{ml: '0.5rem', mr: '0.5rem'}} 
-                            fontSize='large' 
-                            onClick={() => {
-                                setFinalPrice(prev => prev + 0.1)
-                                setMargin(Math.round(finalPrice / costPerUnit() * 100))
-                            }
-                            }
-                        />
-                    </Box>} />
-                        <LinearProgressWithLabel value={normalise(margin)} label={margin} />
+                            <AddCircleOutlineRoundedIcon 
+                                sx={{ml: '0.5rem', mr: '0.5rem'}} 
+                                fontSize='large' 
+                                onClick={() => {
+                                    setFinalPrice(prev => prev + 0.1)
+                                    setMargin(Math.round(finalPrice / costPerUnit() * 100))
+                                }
+                                }
+                            />
+                        </Box>
+                    } 
+                    />
+
+                    <Typography variant='overline' color='text.secondary'>Margen de beneficio</Typography>
+                    <LinearProgressWithLabel value={normalise(margin)} label={margin}  />
+                    <Typography variant='overline' color='text.secondary'>Coste / Pvp</Typography>
+                    <LinearProgressWithLabel value={costPerUnit() / finalPrice  * 100} label={costPerUnit() / finalPrice  * 100}  />
+                    <CostItem primary="Tajada" secondary="Beneficio" quantity={(finalPrice - costPerUnit()).toFixed(2) + '€'} />
 				</Grid>
 			</Grid>
 		);
@@ -171,15 +185,16 @@ export default function CostAndMargin(props) {
 					secondary="Por ración"
 					quantity={`${costPerUnit().toFixed(2)}€`}
 				/>
-				<FinalPriceFixed />
+				{/* <FinalPriceFixed /> */}
                 <FinalPriceManual  />
 				{/* <CostItem primary='COSTE' secondary='Total escandallo' quantity={`${totalCost && totalCost.toFixed(2)}€`} /> */}
 			</List>
+            <Typography variant='overline' color='text.secondary'>Margen de beneficio</Typography>
 			<Slider
 				onChange={handleSlider}
 				defaultValue={300}
 				min={100}
-				max={1000}
+				max={500}
                 valueLabelFormat={valueLabelFormat}
 				valueLabelDisplay="on"
 			/>

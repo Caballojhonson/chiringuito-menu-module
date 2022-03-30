@@ -6,7 +6,8 @@ import {
 	InputAdornment,
 	FormControl,
 	Input,
-    FormHelperText
+    FormHelperText,
+    Paper
 } from '@mui/material';
 import React, { useState } from 'react';
 import CostAndMargin from './CostAndMargin';
@@ -16,7 +17,6 @@ export default function QuantityForm(props) {
 
     const [quantities, setQuantities] = useState({})
     const [totalCost, setTotalCost] = useState(getTotalCost())
-    //const [costPerUnit, setCostPerUnit] = useState(getCostPerUnit())
 
 	const unitPrice = (item) => {
 		if (item.packQuantity) {
@@ -35,7 +35,6 @@ export default function QuantityForm(props) {
 		props.addQuantity(Number(quantity), id);
         setQuantities({...quantities, [id]: Number(quantity)})
         setTotalCost(getTotalCost()) 
-        // setCostPerUnit(getCostPerUnit())
 	}
 
     const totalProductCost = (item) => {
@@ -51,13 +50,10 @@ export default function QuantityForm(props) {
     return total || 0
     }
 
-    // function getCostPerUnit() {
-    //     return totalCost / newMenuItem.rationNumber
-    // }
-
 	const productList = newMenuItem.items.map((item) => {
 		return (
-			<ListItem
+            <Paper elevation={2} sx={{mt:'0.3rem', mb:'0.3rem'}} key={item._id + 'paper'} >
+			<ListItem 
                 key={item._id}
 				secondaryAction={
 					<FormControl >
@@ -86,7 +82,7 @@ export default function QuantityForm(props) {
 					primaryTypographyProps={{ fontSize: '0.8rem' }}
 					secondaryTypographyProps={{ fontSize: '0.7rem', fontWeight: 900 }}
 				/>
-			</ListItem>
+			</ListItem></Paper>
 		)
 	})
 
