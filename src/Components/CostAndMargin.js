@@ -144,7 +144,8 @@ export default function CostAndMargin(props) {
                                 fontSize='large' 
                                 onClick={() => {
                                     setFinalPrice(prev => prev - 0.1)
-                                    setMargin(Math.round(finalPrice / costPerUnit() * 100))
+									// Had to manually increment the price in margin calculation as changed were not being applied on time
+                                    setMargin(Math.round((finalPrice - 0.1) / costPerUnit() * 100))
                                 }
                                 }
                             />
@@ -158,7 +159,8 @@ export default function CostAndMargin(props) {
                                 fontSize='large' 
                                 onClick={() => {
                                     setFinalPrice(prev => prev + 0.1)
-                                    setMargin(Math.round(finalPrice / costPerUnit() * 100))
+									// Had to manually increment the price in margin calculation as changed were not being applied on time
+                                    setMargin(Math.round((finalPrice + 0.1) / costPerUnit() * 100))
                                 }
                                 }
                             />

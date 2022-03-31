@@ -1,5 +1,6 @@
-- Fix Margin (state) lagging one step behind
+// - Fix Margin (state) lagging one step behind DONE
 - Fix quantities (Inputs) being lost after navigating back
+- Fix margin - finalPrice correlation on rounding
 
 - Add a calculator to final screen
 - Add a % increment button that adds a percentage to totalCost for certain circumnstances:
