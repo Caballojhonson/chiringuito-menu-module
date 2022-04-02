@@ -1,20 +1,13 @@
 import {
 	Box,
-	Button,
 	Divider,
-	FormControl,
 	Grid,
-	Input,
-    InputAdornment,
 	List,
 	ListItem,
 	ListItemText,
-	TextField,
 	Typography,
 	Slider,
     LinearProgress,
-    Stack,
-    Paper
 } from '@mui/material';
 import RemoveCircleOutlineRoundedIcon from '@mui/icons-material/RemoveCircleOutlineRounded';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
@@ -35,13 +28,13 @@ export default function CostAndMargin(props) {
 		setFinalPrice((value * costPerUnit()) / 100);
 	}
 
-    function handlePriceInput(e) {
-        console.log(e.target.value)
-        const price = e.target.value
-        console.log(price)
-        console.log(Math.round(price / costPerUnit() * 100))
-        setMargin(Math.round(price / costPerUnit() * 100))
-    }
+    // function handlePriceInput(e) {
+    //     console.log(e.target.value)
+    //     const price = e.target.value
+    //     console.log(price)
+    //     console.log(Math.round(price / costPerUnit() * 100))
+    //     setMargin(Math.round(price / costPerUnit() * 100))
+    // }
 
     function valueLabelFormat(val) {
         return `${val}%`
@@ -106,29 +99,29 @@ export default function CostAndMargin(props) {
 		);
 	}
 
-	function FinalPriceFixed() {
-		return (
-			<Grid container sx={{ alignItems: 'end' }}>
-				<Grid item xs>
-					<CostItem primary="PVP" secondary="Precio venta" />
-				</Grid>
-				<Grid item xs={5}>
-					<TextField
-						value={finalPrice.toFixed(2)}
-                        InputProps={{
-                            endAdornment: <InputAdornment position="end">€</InputAdornment>,
-                          }}
-                        onChange={handlePriceInput}
-						label="PVP"
-						variant="filled"
-					/>
-				</Grid>
-				<Grid item>
-					<Button variant="contained">Redondear</Button>
-				</Grid>
-			</Grid>
-		);
-	}
+	// function FinalPriceFixed() {
+	// 	return (
+	// 		<Grid container sx={{ alignItems: 'end' }}>
+	// 			<Grid item xs>
+	// 				<CostItem primary="PVP" secondary="Precio venta" />
+	// 			</Grid>
+	// 			<Grid item xs={5}>
+	// 				<TextField
+	// 					value={finalPrice.toFixed(2)}
+    //                     InputProps={{
+    //                         endAdornment: <InputAdornment position="end">€</InputAdornment>,
+    //                       }}
+    //                     onChange={handlePriceInput}
+	// 					label="PVP"
+	// 					variant="filled"
+	// 				/>
+	// 			</Grid>
+	// 			<Grid item>
+	// 				<Button variant="contained">Redondear</Button>
+	// 			</Grid>
+	// 		</Grid>
+	// 	);
+	// }
 
     function FinalPriceManual() {
 		return (

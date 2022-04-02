@@ -3,6 +3,8 @@
 - Fix margin - finalPrice correlation on rounding (Recalculate margin before submitting item to db)
 - Fix prep time format not being added automatically (Force minutes 'm' before submitting if timeFormat key is missing)
 // - Fix ability to add same product twice OK!
+- Add quantity validation
+-  
 
 // - Add a calculator to final screen DONE
 - Add a % increment button that adds a percentage to totalCost for certain circumnstances:

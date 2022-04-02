@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-// import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CalculateSharpIcon from '@mui/icons-material/CalculateSharp';
 
 export default function TopNavbar(props) {

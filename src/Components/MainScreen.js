@@ -6,7 +6,6 @@ import NewItemForm from './NewItemForm';
 import ItemListForm from './ItemListForm';
 import NewProductHeader from './NewProductHeader';
 import QuantityForm from './QuantityForm';
-import CostAndMargin from './CostAndMargin';
 import { ReactCalculator } from 'simple-react-calculator';
 import { IconButton, Modal } from '@mui/material';
 import KeyboardBackspaceSharpIcon from '@mui/icons-material/KeyboardBackspaceSharp';

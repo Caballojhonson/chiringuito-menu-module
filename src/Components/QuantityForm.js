@@ -20,11 +20,9 @@ export default function QuantityForm(props) {
 
 	function previousQuants() {
 		let quants = {};
-		console.log(Object.keys(quants).length)
 
-		newMenuItem.items.map(item => {
+		newMenuItem.items.forEach(item => {
 			quants = {...quants, [item._id]: item.quantity}
-			console.log(Object.keys(quants).length)
 		})
 
 		return Object.keys(quants).length ? quants : undefined
