@@ -101,7 +101,8 @@ export default function QuantityForm(props) {
 		<Box sx={{ margin: '1rem 1.5rem 1rem 1.5rem' }}>
 			<Typography variant="h6">Cantidades</Typography>
 			{productList}
-            <CostAndMargin totalCost={totalCost} newMenuItem={newMenuItem} />
+			{!(Object.values(quantities).some(val => val === undefined || val === 0)) && <CostAndMargin totalCost={totalCost} newMenuItem={newMenuItem} />}
+            {console.log(Object.values(quantities).some(val => val === undefined || val === 0))}
 		</Box>
 	);
 }

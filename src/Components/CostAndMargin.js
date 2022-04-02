@@ -21,7 +21,7 @@ export default function CostAndMargin(props) {
 
     useEffect(() => {
       setFinalPrice(costPerUnit() * margin / 100)
-    }, [totalCost])
+    }, [totalCost, margin])  // ADDED MARGIN TO DEPS !!!
     
 	function handleSlider(e, value) {
 		setMargin(value);
