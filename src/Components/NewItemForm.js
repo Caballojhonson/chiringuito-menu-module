@@ -6,6 +6,9 @@ import {
 	Select,
 	MenuItem,
 	InputLabel,
+	ToggleButtonGroup,
+	ToggleButton
+
 } from '@mui/material';
 import { Box } from '@mui/system';
 
@@ -20,7 +23,7 @@ export default function NewItemForm(props) {
 		'Postre',
 		'Snack',
 		'Bocadillo',
-		'Salsa',
+		'Preelaboración',
 	];
 
 	function handleChange(e) {
@@ -28,7 +31,7 @@ export default function NewItemForm(props) {
 		const value = e.target.value;
 
 		setNewItem({ ...newItem, [name]: value });
-		props.stateShare({ ...newItem, [name]: value })
+		props.stateShare({ ...newItem, [name]: value });
 	}
 
 	return (
@@ -37,7 +40,11 @@ export default function NewItemForm(props) {
 			<Box sx={{ m: 1 }}>
 				<TextField
 					error={props.validate && !newItem.name ? true : false}
-					helperText={props.validate && !newItem.rationNumber ? 'Ponle nombre, hostia!' : ''}
+					helperText={
+						props.validate && !newItem.rationNumber
+							? 'Ponle nombre, hostia!'
+							: ''
+					}
 					fullWidth
 					id="outlined-search"
 					type="search"
@@ -46,15 +53,17 @@ export default function NewItemForm(props) {
 					value={newItem.name}
 					onChange={handleChange}
 					margin="normal"
-					autoComplete='off'
+					autoComplete="off"
 				/>
 				<Box sx={{ display: 'flex' }}>
 					<TextField
 						error={props.validate && !newItem.rationNumber ? true : false}
-						helperText={props.validate && !newItem.rationNumber ? 'Por favor...' : ''}
+						helperText={
+							props.validate && !newItem.rationNumber ? 'Por favor...' : ''
+						}
 						sx={{ width: '50%' }}
 						id="outlined-required"
-						type='number'
+						type="number"
 						inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
 						label="Nº Raciones"
 						name="rationNumber"
@@ -63,9 +72,10 @@ export default function NewItemForm(props) {
 						margin="normal"
 					/>
 					<FormControl
-						fullWidth 
-						sx={{ marginTop: 2, marginLeft: 1 }} 
-						error={props.validate && !newItem.category ? true : false}>
+						fullWidth
+						sx={{ marginTop: 2, marginLeft: 1 }}
+						error={props.validate && !newItem.category ? true : false}
+					>
 						<InputLabel>Categoría</InputLabel>
 						<Select
 							labelId="category-label"
@@ -75,10 +85,39 @@ export default function NewItemForm(props) {
 							onChange={handleChange}
 						>
 							{categories.map((item) => (
-								<MenuItem key={item} value={item}>{item}</MenuItem>
+								<MenuItem key={item} value={item}>
+									{item}
+								</MenuItem>
 							))}
 						</Select>
 					</FormControl>
+				</Box>
+				<Box sx={{ display: 'flex', alignItems: 'center'}}>
+					<TextField
+						error={props.validate && !newItem.prepTime ? true : false}
+						helperText={
+							props.validate && !newItem.prepTime ? 'Cuánto tardas?!' : ''
+						}
+						id="outlined-required"
+						type="number"
+						inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+						label="Tiempo elaboración"
+						name="prepTime"
+						value={Number(newItem.prepTime)}
+						onChange={handleChange}
+						margin="normal"
+					/>
+					<ToggleButtonGroup 
+						sx={{ml: 1, mt: 1}}
+						color="primary"
+						value={newItem.timeFormat || 'm'}
+						name='timeFormat'
+						exclusive
+						onChange={handleChange}
+					>
+						<ToggleButton name='timeFormat' value="m">Minutos</ToggleButton>
+						<ToggleButton name='timeFormat' value="h">Horas</ToggleButton>
+					</ToggleButtonGroup>
 				</Box>
 			</Box>
 		</Box>

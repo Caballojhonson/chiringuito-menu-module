@@ -15,8 +15,20 @@ import CostAndMargin from './CostAndMargin';
 export default function QuantityForm(props) {
 	const { newMenuItem } = props;
 
-    const [quantities, setQuantities] = useState({})
+    const [quantities, setQuantities] = useState(previousQuants() || {})
     const [totalCost, setTotalCost] = useState(getTotalCost())
+
+	function previousQuants() {
+		let quants = {};
+		console.log(Object.keys(quants).length)
+
+		newMenuItem.items.map(item => {
+			quants = {...quants, [item._id]: item.quantity}
+			console.log(Object.keys(quants).length)
+		})
+
+		return Object.keys(quants).length ? quants : undefined
+	}
 
 	const unitPrice = (item) => {
 		if (item.packQuantity) {
@@ -32,7 +44,7 @@ export default function QuantityForm(props) {
 	function handleChange(e) {
 		const id = e.target.name;
 		const quantity = e.target.value;
-		props.addQuantity(Number(quantity), id);
+		props.addQuantity(quantity, id);
         setQuantities({...quantities, [id]: Number(quantity)})
         setTotalCost(getTotalCost()) 
 	}
@@ -71,6 +83,7 @@ export default function QuantityForm(props) {
 							type="number"
 							inputProps={{ style: { textAlign: 'center' } }}
 							onChange={handleChange}
+							value={quantities[item._id]}
 						/>
                             <FormHelperText>{totalProductCost(item)}</FormHelperText>
 					</FormControl>

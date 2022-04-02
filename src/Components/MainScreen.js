@@ -59,7 +59,7 @@ export default function MainScreen() {
 		return (
 			<Box>
 				<Modal open={showCalculator} onClose={() => setShowCalculator(false)}>
-					<Box>
+					<Box sx={{backgroundColor: 'black'}}>
 						<IconButton
 							sx={{ position: 'fixed', left: '1rem', color: '#ffffff' }}
 							onClick={() => setShowCalculator(false)}
@@ -80,7 +80,7 @@ export default function MainScreen() {
 	return (
 		<ThemeProvider theme={theme}>
 			<TopNavbar prev={prevScreen} showCalculator={() => setShowCalculator(true)}  />
-			
+
 			<CalculatorModal  />
 
 			{screen === 1 && (

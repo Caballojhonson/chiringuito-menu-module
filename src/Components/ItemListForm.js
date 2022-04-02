@@ -42,8 +42,16 @@ export default function ItemListForm(props) {
 	}
 
 	function addProduct(product) {
-		product && setAddedProducts(prev => [...prev, product])
-		product && props.stateShare({items: [...addedProducts, product]})
+		const inListAlready = () => {
+			if(props.newMenuItem.items) {
+			return props.newMenuItem.items.find(item => item._id === product._id)
+			}
+		}
+
+		if(product && !inListAlready()) {
+			setAddedProducts(prev => [...prev, product])
+			props.stateShare({items: [...addedProducts, product]})
+		}
     }
 	
 	function deleteProduct(id) {
@@ -65,13 +73,17 @@ export default function ItemListForm(props) {
 					options={products}
                     groupBy={(option) => option.supplier}
 					getOptionLabel={(option) => option.name || ''}
-					renderOption={(props, option) => (
-						<Box key={option.id} component="li" sx={{ display: 'flex', maxWidth: 500 }} {...props}>
+					renderOption={(props, option) => {
+						const hasBeenSelected = addedProducts.find(item => item._id === option._id)
+						const normalStyle = { display: 'flex', maxWidth: 500 }
+						const addedStyle = { display: 'flex', maxWidth: 500, backgroundColor: 'rgba(255, 105, 180, 0.08)', textDecoration: 'line-through' }
+						return (
+						<Box key={option.id} component="li"  {...props} sx= {hasBeenSelected ?  addedStyle :  normalStyle}>
 							<Typography  variant="caption">{option.name}</Typography>
                             <div style= {{display: 'flex', flexGrow:2}}></div>
 							<Typography variant="h6">{option.price}€</Typography>
 						</Box>
-					)}
+					)}}
 					renderInput={(params) => (
 						<TextField
 							{...params}
