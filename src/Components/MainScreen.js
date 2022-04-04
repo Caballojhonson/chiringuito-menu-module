@@ -54,7 +54,7 @@ export default function MainScreen() {
 		setScreen(1);
 	}
 
-	function CalculatorModal(props) {
+	function CalculatorModal() {
 		return (
 			<Box>
 				<Modal open={showCalculator} onClose={() => setShowCalculator(false)}>
