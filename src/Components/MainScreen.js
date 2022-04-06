@@ -102,7 +102,7 @@ export default function MainScreen() {
 				<NewProductHeader newMenuItem={newMenuItem} prev={prevScreen} />
 			)}
 			{screen === 2 && (
-				<QuantityForm newMenuItem={newMenuItem} addQuantity={addQuantity} />
+				<QuantityForm newMenuItem={newMenuItem} addQuantity={addQuantity} shareState={handleState} />
 			)}
 		</ThemeProvider>
 	);

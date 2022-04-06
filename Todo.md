@@ -8,7 +8,8 @@
         - Negligible costs like salt & pepper
         - Fried meals (Oil consumption)
         - Intermediate single use consumables (sous-vide bags, nitrogen canisters...)
-- Add % merma
+        
+- Add % merma (Maybe not. Prompt user to use unprocessed weights)
 
 - Add info icon for problematic sections:
         ==> Quantities: "Please add the quantity you would normally buy, merma included. Orders will be made in these quantities"

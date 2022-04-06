@@ -26,15 +26,22 @@ export default function QuantityForm(props) {
 	const { newMenuItem } = props;
 
 	const [showSupplementModal, setShowSupplementModal] = useState(false)
+	const [supplement, setSupplement] = useState({})
+	const [supplements, setSupplements] = useState([])
     const [quantities, setQuantities] = useState(previousQuants() || {})
     const [totalCost, setTotalCost] = useState(getTotalCost())
 
-	function handleSupplement() {
-
+	function handleSupplementChange(e) {
+		const key = e.target.name
+		const value = e.target.value
+		setSupplement({...supplement, [key]: value})
 	}
 
 	function addSupplement() {
+		setSupplements(prev => [...prev, supplement])
+		props.shareState({supplements: [...supplements, supplement]})
 		setShowSupplementModal(false)
+		setSupplement({})
 	}
 
 	function previousQuants() {
@@ -163,8 +170,8 @@ export default function QuantityForm(props) {
 						label="Concepto"
 						placeholder='Desechables, aderezos...'
 						name="concept"
-						value={''}
-						onChange={handleChange}
+						value={supplement.concept}
+						onChange={handleSupplementChange}
 						margin="normal"
 						/>
 						<FormControl>
@@ -172,12 +179,13 @@ export default function QuantityForm(props) {
 							<OutlinedInput 
 							id='percent'
 							label="Porcentaje"
+							type= 'number'
 							name="percentage"
 							endAdornment={<InputAdornment position="end">
 										<PercentRoundedIcon/>
 										</InputAdornment>}
-							value={''}
-							onChange={handleChange}
+							value={supplement.percentage}
+							onChange={handleSupplementChange}
 							margin="normal"
 							/>
 						</FormControl>
