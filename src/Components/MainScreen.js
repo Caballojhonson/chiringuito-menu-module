@@ -28,6 +28,13 @@ export default function MainScreen() {
 		setNewMenuItem(oldMenuItem);
 	}
 
+	function removeSupplement(id) {
+		const newSupplementArray = newMenuItem.supplements.filter((item) => item.id !== id);
+		const oldMenuItem = newMenuItem;
+		oldMenuItem.supplements = newSupplementArray;
+		setNewMenuItem(oldMenuItem);
+	}
+
 	function addQuantity(quantity, id) {
 		const matchingItemIndex = newMenuItem.items.findIndex(
 			(item) => item._id === id
@@ -102,7 +109,12 @@ export default function MainScreen() {
 				<NewProductHeader newMenuItem={newMenuItem} prev={prevScreen} />
 			)}
 			{screen === 2 && (
-				<QuantityForm newMenuItem={newMenuItem} addQuantity={addQuantity} shareState={handleState} />
+				<QuantityForm 
+				newMenuItem={newMenuItem} 
+				addQuantity={addQuantity} 
+				shareState={handleState}
+				removeSupplement={removeSupplement}
+				/>
 			)}
 		</ThemeProvider>
 	);

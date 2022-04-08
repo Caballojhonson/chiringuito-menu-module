@@ -14,14 +14,15 @@ import {
 	TextField,
 	OutlinedInput,
 	InputLabel,
-
+	IconButton,
 } from '@mui/material';
 import React, { useState } from 'react';
 import CostAndMargin from './CostAndMargin';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import PercentRoundedIcon from '@mui/icons-material/PercentRounded';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import uniqid from 'uniqid';
 export default function QuantityForm(props) {
 	const { newMenuItem } = props;
 
@@ -30,6 +31,7 @@ export default function QuantityForm(props) {
 	const [supplements, setSupplements] = useState([])
     const [quantities, setQuantities] = useState(previousQuants() || {})
     const [totalCost, setTotalCost] = useState(getTotalCost())
+	const [supplementedTotalCost, setSupplementedTotalCost] = useState('')
 
 	function handleSupplementChange(e) {
 		const key = e.target.name
@@ -38,10 +40,16 @@ export default function QuantityForm(props) {
 	}
 
 	function addSupplement() {
-		setSupplements(prev => [...prev, supplement])
-		props.shareState({supplements: [...supplements, supplement]})
+		const idedSupplement = {...supplement, id: uniqid()}
+		setSupplements(prev => [...prev, idedSupplement])
+		props.shareState({supplements: [...supplements, idedSupplement]})
 		setShowSupplementModal(false)
 		setSupplement({})
+	}
+
+	function removeSupplement(id) {
+		props.removeSupplement(id)
+		setSupplements(prev => prev.filter(item => item.id !== id))
 	}
 
 	function previousQuants() {
@@ -120,6 +128,38 @@ export default function QuantityForm(props) {
 					secondaryTypographyProps={{ fontSize: '0.7rem', fontWeight: 900 }}
 				/>
 			</ListItem></Paper>
+		)
+	})
+
+	const supplementList = newMenuItem.supplements &&
+	newMenuItem.supplements.map((item, i) => {
+
+		const supplementQuantity = Math.ceil(((item.percentage * totalCost / 100) / newMenuItem.rationNumber) * 100) / 100
+
+		return (
+			<Paper elevation={2} sx={{mt:'0.3rem', mb:'0.3rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}} key={'supplement' + i} >
+				<ListItem 
+				key={'supplement' + i}
+				secondaryAction={
+					<Typography variant='h6'>
+						{`${item.percentage}%`}
+					</Typography>
+				}
+				>
+					<ListItemText 
+						primary={item.concept}
+						secondary={supplementQuantity.toFixed(2) + '€'}
+						primaryTypographyProps={{ fontSize: '0.8rem' }}
+						secondaryTypographyProps={{ fontSize: '0.7rem', fontWeight: 900 }}
+					/>
+				</ListItem>
+				<IconButton onClick={() => removeSupplement(item.id)}>
+					<DeleteIcon 
+					sx={{color: 'rgba(0, 0, 0, 0.54)', ml:'1rem', mr: '1rem'}}
+					/>
+				</IconButton>
+				
+			</Paper>
 		)
 	})
 
@@ -213,9 +253,14 @@ export default function QuantityForm(props) {
 			<Typography variant="h6">Cantidades</Typography>
 			{supplementModal()}
 			{productList}
-			{addSupplementBtn}
+			{supplementList}
+			
 			{!(Object.values(quantities).some(val => val === undefined || val === 0)) && //Input validation (No empty quants)
-			<CostAndMargin totalCost={totalCost} newMenuItem={newMenuItem} />}
+			<Box>
+			{addSupplementBtn}
+			<CostAndMargin totalCost={totalCost} newMenuItem={newMenuItem} />
+			</Box>
+			}
 		</Box>
 	);
 }
