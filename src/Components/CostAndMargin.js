@@ -28,14 +28,6 @@ export default function CostAndMargin(props) {
 		setFinalPrice((value * costPerUnit()) / 100);
 	}
 
-    // function handlePriceInput(e) {
-    //     console.log(e.target.value)
-    //     const price = e.target.value
-    //     console.log(price)
-    //     console.log(Math.round(price / costPerUnit() * 100))
-    //     setMargin(Math.round(price / costPerUnit() * 100))
-    // }
-
     function valueLabelFormat(val) {
         return `${val}%`
     }
@@ -98,30 +90,6 @@ export default function CostAndMargin(props) {
 			</div>
 		);
 	}
-
-	// function FinalPriceFixed() {
-	// 	return (
-	// 		<Grid container sx={{ alignItems: 'end' }}>
-	// 			<Grid item xs>
-	// 				<CostItem primary="PVP" secondary="Precio venta" />
-	// 			</Grid>
-	// 			<Grid item xs={5}>
-	// 				<TextField
-	// 					value={finalPrice.toFixed(2)}
-    //                     InputProps={{
-    //                         endAdornment: <InputAdornment position="end">€</InputAdornment>,
-    //                       }}
-    //                     onChange={handlePriceInput}
-	// 					label="PVP"
-	// 					variant="filled"
-	// 				/>
-	// 			</Grid>
-	// 			<Grid item>
-	// 				<Button variant="contained">Redondear</Button>
-	// 			</Grid>
-	// 		</Grid>
-	// 	);
-	// }
 
     function FinalPriceManual() {
 		return (
@@ -186,7 +154,7 @@ export default function CostAndMargin(props) {
 					quantity={`${costPerUnit().toFixed(2)}€`}
 				/>
                 <CostItem primary="diferencial" secondary="Beneficio" quantity={(finalPrice - costPerUnit()).toFixed(2) + '€'} />
-				{/* <FinalPriceFixed /> */}
+
 				{/* <CostItem primary='COSTE' secondary='Total escandallo' quantity={`${totalProductCost && totalProductCost.toFixed(2)}€`} /> */}
                 <ProgressBar title='margen de beneficio' value={normalise(margin)} progressLabel={margin}  />
                 <Slider

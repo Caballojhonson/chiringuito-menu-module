@@ -52,7 +52,7 @@ export default function Supplements(props) {
     const supplementList = newMenuItem.supplements &&
 	newMenuItem.supplements.map((item, i) => {
 
-		const supplementQuantity = Math.ceil(((item.percentage * totalProductCost / 100) / newMenuItem.rationNumber) * 100) / 100
+		const supplementQuantity = Math.ceil(((Number(item.percentage) / 100) * totalProductCost / newMenuItem.rationNumber) * 100) / 100
 
 		return (
 			<Paper elevation={2} sx={{mt:'0.3rem', mb:'0.3rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}} key={'supplement' + i} >

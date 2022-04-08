@@ -17,10 +17,10 @@ export default function QuantityForm(props) {
 	const { newMenuItem } = props;
 
     const [quantities, setQuantities] = useState(previousQuants() || {})
-    const [totalProductCost, setTotalProductCost] = useState(getTotalCost())
+    const [totalProductCost, setTotalProductCost] = useState(getTotalProductCost())
 
 	useEffect(() => {
-		setTotalProductCost(getTotalCost()) 
+		setTotalProductCost(getTotalProductCost()) 
 	}, [newMenuItem])
 	
 	function previousQuants() {  //PLEASE refactor stupid function
@@ -49,34 +49,26 @@ export default function QuantityForm(props) {
 		const quantity = e.target.value;
 		props.addQuantity(quantity, id);
         setQuantities({...quantities, [id]: Number(quantity)})
-        setTotalProductCost(getTotalCost()) 
+        setTotalProductCost(getTotalProductCost()) 
 	}
 
-    const getTotalProductCost = (item) => {
+    const getThisProductsCost = (item) => {
         const total = `${(item.price / (item.packQuantity || 1) * quantities[item._id]).toFixed(2)}€`
 
         if(total !== 'NaN€') return total 
         else return ''
     }
 
-    function getTotalCost() {
+    function getTotalProductCost() {
     const productTotal = newMenuItem.items.reduce((a,b) => 
     a + (b.quantity * b.price / (b.packQuantity || 1)) ,0)
 
-	const supplementTotalPercentage = newMenuItem.supplements && newMenuItem.supplements.reduce((a,b) => 
+    return productTotal || 0
+    }
+
+	const supplementTotalPercentage = () => newMenuItem.supplements && newMenuItem.supplements.reduce((a,b) => 
 		a + Number(b.percentage)
 	,0)
-
-	const total = supplementTotalPercentage ? 
-	productTotal + (productTotal * supplementTotalPercentage / 100) :
-	productTotal
-	
-	console.log(productTotal)
-	console.log(supplementTotalPercentage)
-	console.log(total)
-
-    return total || 0
-    }
 
 	const productList = newMenuItem.items.map((item) => {
 		return (
@@ -101,7 +93,7 @@ export default function QuantityForm(props) {
 							onChange={handleChange}
 							value={quantities[item._id]}
 						/>
-                            <FormHelperText>{getTotalProductCost(item)}</FormHelperText>
+                            <FormHelperText>{getThisProductsCost(item)}</FormHelperText>
 					</FormControl>
 				}
 			>
