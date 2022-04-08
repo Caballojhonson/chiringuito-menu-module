@@ -33,7 +33,7 @@ export default function NewProductHeader(props) {
 			</ListItemAvatar>
 			<ListItemText
 				primary={newMenuItem.name}
-				secondary={`${newMenuItem.rationNumber} Raciones, ${newMenuItem.prepTime}${newMenuItem.timeFormat}`}
+				secondary={`${newMenuItem.rationNumber} Raciones, ${newMenuItem.prepTime}${newMenuItem.timeFormat || 'm'}`}
 				secondaryTypographyProps={{ fontSize: '0.7rem', fontWeight: 900 }}
 			/>
 		</ListItem>

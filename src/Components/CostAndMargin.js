@@ -14,14 +14,14 @@ import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRou
 import React, { useEffect, useState } from 'react';
 
 export default function CostAndMargin(props) {
-	const { newMenuItem, totalCost } = props;
+	const { newMenuItem, totalProductCost } = props;
 
 	const [margin, setMargin] = useState(300);
 	const [finalPrice, setFinalPrice] = useState(costPerUnit() * margin);
 
     useEffect(() => {
       setFinalPrice(costPerUnit() * margin / 100)
-    }, [totalCost, margin])  // ADDED MARGIN TO DEPS !!!
+    }, [totalProductCost, margin, newMenuItem.supplements])  // ADDED MARGIN TO DEPS !!!
     
 	function handleSlider(e, value) {
 		setMargin(value);
@@ -41,7 +41,7 @@ export default function CostAndMargin(props) {
     }
 
     function costPerUnit() {
-        return totalCost / newMenuItem.rationNumber
+        return totalProductCost / newMenuItem.rationNumber
     }
 
     function LinearProgressWithLabel(props) {
@@ -187,7 +187,7 @@ export default function CostAndMargin(props) {
 				/>
                 <CostItem primary="diferencial" secondary="Beneficio" quantity={(finalPrice - costPerUnit()).toFixed(2) + '€'} />
 				{/* <FinalPriceFixed /> */}
-				{/* <CostItem primary='COSTE' secondary='Total escandallo' quantity={`${totalCost && totalCost.toFixed(2)}€`} /> */}
+				{/* <CostItem primary='COSTE' secondary='Total escandallo' quantity={`${totalProductCost && totalProductCost.toFixed(2)}€`} /> */}
                 <ProgressBar title='margen de beneficio' value={normalise(margin)} progressLabel={margin}  />
                 <Slider
 				onChange={handleSlider}
