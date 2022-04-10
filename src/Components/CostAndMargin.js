@@ -32,18 +32,6 @@ export default function CostAndMargin(props) {
         return `${val}%`
     }
 
-// 	function totalCost() {
-// 		const supplementTotalPercentage = 
-// 		newMenuItem.supplements && 
-// 		newMenuItem.supplements.reduce((a,b) => 
-// 		a + Number(b.percentage) ,0)
-
-// 		const totalSupplementCost = supplementTotalPercentage * totalProductCost / 100 
-// 		const totalCost = totalProductCost + totalSupplementCost
-// console.log(totalCost + 'totalcost')
-// 		return Math.ceil(totalCost * 100) / 100
-// 	}
-
     function totalCost() {
 		const ceilCurrency = (num) => Math.ceil(num * 100) / 100
 
@@ -65,7 +53,6 @@ export default function CostAndMargin(props) {
 		const totalPricePerUnit = totalCost() / newMenuItem.rationNumber
 		return ceilCurrency(totalPricePerUnit)
     }
-
 
 	function costPerKilo() {
 		const kilos = newMenuItem.finalWeight

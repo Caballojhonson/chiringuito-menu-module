@@ -48,7 +48,7 @@ export default function QuantityForm(props) {
 		const id = e.target.name;
 		const quantity = e.target.value;
 		props.addQuantity(quantity, id);
-        setQuantities({...quantities, [id]: Number(quantity)})
+        setQuantities({...quantities, [id]: quantity})
         setTotalProductCost(getTotalProductCost()) 
 	}
 

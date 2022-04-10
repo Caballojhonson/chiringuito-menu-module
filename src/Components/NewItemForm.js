@@ -82,10 +82,9 @@ export default function NewItemForm(props) {
 						sx={{ width: '50%' }}
 						id="outlined-required"
 						type="number"
-						inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
 						label="Nº Raciones"
 						name="rationNumber"
-						value={Number(newItem.rationNumber)}
+						value={newItem.rationNumber}
 						onChange={handleChange}
 						margin="normal"
 					/>
@@ -121,7 +120,7 @@ export default function NewItemForm(props) {
 						inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
 						label="Tiempo elaboración"
 						name="prepTime"
-						value={Number(newItem.prepTime)}
+						value={newItem.prepTime}
 						onChange={handleChange}
 						margin="normal"
 					/>
@@ -156,7 +155,7 @@ export default function NewItemForm(props) {
 						inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
 						label="Peso final (Kg)"
 						name="finalWeight"
-						value={Number(newItem.finalWeight)}
+						value={newItem.finalWeight}
 						onChange={handleChange}
 						margin="normal"
 					/>
