@@ -33,27 +33,20 @@ export default function CostAndMargin(props) {
     }
 
     function costPerUnit() {
+		const ceilCurrency = (num) => Math.ceil(num * 100) / 100
+
 		const supplementTotalPercentage = 
 		newMenuItem.supplements && 
 		newMenuItem.supplements.reduce((a,b) => 
 		a + Number(b.percentage) ,0)
 
-		const totalSupplementCost = Math.ceil(supplementTotalPercentage * totalProductCost / 100 * 100) / 100
-		const productCostPerUnit = Math.ceil(totalProductCost / newMenuItem.rationNumber * 100) / 100
-		const totalCostPerUnit = productCostPerUnit + totalSupplementCost
-		const totalCostPerUnitCeil = Math.ceil(totalCostPerUnit * 100) / 100
-
-
-		console.log('Sup Total Percentage: ' + supplementTotalPercentage)
-		console.log('Total supplement cost: ' + totalSupplementCost)
-		console.log('Unitary product cost: ' + productCostPerUnit)
-		console.log('Total product cost: ' + totalCostPerUnit)
-		console.log('MANUAL CALC: ' + (productCostPerUnit + totalSupplementCost))
-
+		const totalSupplementCost = supplementTotalPercentage * totalProductCost / 100 
+		const productCostPerUnit = totalProductCost / newMenuItem.rationNumber
+		const totalCostPerUnit = productCostPerUnit + (totalSupplementCost / newMenuItem.rationNumber)
 
 		if(supplementTotalPercentage) {
-        return totalCostPerUnitCeil
-		} else return productCostPerUnit
+        return ceilCurrency(totalCostPerUnit)
+		} else return ceilCurrency(productCostPerUnit)
     }
 
     function LinearProgressWithLabel(props) {
