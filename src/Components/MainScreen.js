@@ -7,15 +7,23 @@ import ItemListForm from './ItemListForm';
 import NewProductHeader from './NewProductHeader';
 import QuantityForm from './QuantityForm';
 import { ReactCalculator } from 'simple-react-calculator';
-import { IconButton, Modal } from '@mui/material';
+import { IconButton, Modal, Box } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import KeyboardBackspaceSharpIcon from '@mui/icons-material/KeyboardBackspaceSharp';
-import { Box } from '@mui/system';
+import SaveIcon from '@mui/icons-material/Save';
 
 export default function MainScreen() {
 	const [newMenuItem, setNewMenuItem] = useState({});
 	const [screen, setScreen] = useState(1);
 	const [validate, setValidate] = useState(false);
 	const [showCalculator, setShowCalculator] = useState(false);
+	const [sending, setSending] = useState(false);
+
+	function mockDBRes(data) {
+		console.log(data);
+		setSending(true);
+		setTimeout(() => setSending(false), 4000);
+	}
 
 	function handleState(obj) {
 		setNewMenuItem({ ...newMenuItem, ...obj });
@@ -29,14 +37,16 @@ export default function MainScreen() {
 	}
 
 	function removeSupplement(id) {
-		const newSupplementArray = newMenuItem.supplements.filter((item) => item.id !== id);
+		const newSupplementArray = newMenuItem.supplements.filter(
+			(item) => item.id !== id
+		);
 		const oldMenuItem = newMenuItem;
 		oldMenuItem.supplements = newSupplementArray;
 		setNewMenuItem(oldMenuItem);
 	}
 
 	function removeFinalWeight() {
-		delete newMenuItem.finalWeight
+		delete newMenuItem.finalWeight;
 	}
 
 	function addQuantity(quantity, id) {
@@ -53,23 +63,22 @@ export default function MainScreen() {
 	function nextScreen() {
 		if (
 			(newMenuItem.name &&
-			newMenuItem.rationNumber &&
-			newMenuItem.category &&
-			newMenuItem.items &&
-			newMenuItem.prepTime &&
-			!newMenuItem.isIntermediate)
-			||
+				newMenuItem.rationNumber &&
+				newMenuItem.category &&
+				newMenuItem.items &&
+				newMenuItem.prepTime &&
+				!newMenuItem.isIntermediate) ||
 			(newMenuItem.name &&
-			newMenuItem.rationNumber &&
-			newMenuItem.category &&
-			newMenuItem.items &&
-			newMenuItem.prepTime &&
-			newMenuItem.isIntermediate &&
-			newMenuItem.finalWeight
-			)
+				newMenuItem.rationNumber &&
+				newMenuItem.category &&
+				newMenuItem.items &&
+				newMenuItem.prepTime &&
+				newMenuItem.isIntermediate &&
+				newMenuItem.finalWeight)
 		) {
 			setScreen(2);
-			!newMenuItem.isIntermediate && removeFinalWeight()
+			!newMenuItem.isIntermediate && removeFinalWeight();
+			window.scrollTo(0, 0)
 		} else setValidate(true);
 	}
 
@@ -81,7 +90,7 @@ export default function MainScreen() {
 		return (
 			<Box>
 				<Modal open={showCalculator} onClose={() => setShowCalculator(false)}>
-					<Box sx={{backgroundColor: 'black'}}>
+					<Box sx={{ backgroundColor: 'black' }}>
 						<IconButton
 							sx={{ position: 'fixed', left: '1rem', color: '#ffffff' }}
 							onClick={() => setShowCalculator(false)}
@@ -101,9 +110,12 @@ export default function MainScreen() {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<TopNavbar prev={prevScreen} showCalculator={() => setShowCalculator(true)}  />
+			<TopNavbar
+				prev={prevScreen}
+				showCalculator={() => setShowCalculator(true)}
+			/>
 
-			<CalculatorModal  />
+			<CalculatorModal />
 
 			{screen === 1 && (
 				<Box>
@@ -126,15 +138,25 @@ export default function MainScreen() {
 			{screen === 2 && (
 				<Box>
 					<NewProductHeader newMenuItem={newMenuItem} prev={prevScreen} />
-					<QuantityForm 
-					newMenuItem={newMenuItem} 
-					addQuantity={addQuantity} 
-					shareState={handleState}
-					removeSupplement={removeSupplement}
+					<QuantityForm
+						newMenuItem={newMenuItem}
+						addQuantity={addQuantity}
+						shareState={handleState}
+						removeSupplement={removeSupplement}
 					/>
+					<Box sx={{display: 'flex', justifyContent:'center', mb: 7}}>
+						<LoadingButton
+							loading={sending}
+							loadingPosition="start"
+							startIcon={<SaveIcon />}
+							variant="outlined"
+							onClick={() => mockDBRes(newMenuItem)}
+						>
+							Guardar
+						</LoadingButton>
+					</Box>
 				</Box>
 			)}
-
 		</ThemeProvider>
 	);
 }
