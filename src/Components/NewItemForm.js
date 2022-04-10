@@ -7,13 +7,19 @@ import {
 	MenuItem,
 	InputLabel,
 	ToggleButtonGroup,
-	ToggleButton
+	ToggleButton,
+	FormControlLabel,
+	Switch
 
 } from '@mui/material';
 import { Box } from '@mui/system';
 
 export default function NewItemForm(props) {
-	const [newItem, setNewItem] = useState(props.newMenuItem || {});
+	const [newItem, setNewItem] = useState(props.newMenuItem || {
+		isIntermediate: false,
+		timeFormat: 'm'
+	});
+	const [isIntermediate, setIsIntermediate] = useState(false)
 
 	const categories = [
 		'Aperitivo',
@@ -34,6 +40,18 @@ export default function NewItemForm(props) {
 		props.stateShare({ ...newItem, [name]: value });
 	}
 
+	function handleSwitch(e) {
+		setIsIntermediate(e.target.checked)
+
+		e.target.checked &&
+		setNewItem({...newItem, isIntermediate: e.target.checked})
+		props.stateShare({ ...newItem, isIntermediate: e.target.checked})
+
+		!e.target.checked &&
+		delete newItem.isIntermediate
+		delete newItem.finalWeight
+	}
+
 	return (
 		<Box sx={{ margin: '1rem 1.5rem 1rem 1.5rem' }}>
 			<Typography variant="h6">Nueva referencia</Typography>
@@ -44,7 +62,7 @@ export default function NewItemForm(props) {
 						props.validate && !newItem.rationNumber
 							? 'Ponle nombre, hostia!'
 							: ''
-					}
+						}
 					fullWidth
 					id="outlined-search"
 					type="search"
@@ -118,6 +136,31 @@ export default function NewItemForm(props) {
 						<ToggleButton name='timeFormat' value="m">Minutos</ToggleButton>
 						<ToggleButton name='timeFormat' value="h">Horas</ToggleButton>
 					</ToggleButtonGroup>
+				</Box>
+				<Box sx={{ display: 'flex', alignItems: 'center'}}>					
+					<FormControlLabel 
+					control={<Switch 
+						checked={isIntermediate}
+						onChange={handleSwitch}
+						/>} 
+					label="¿Es una base?"
+					name='isIntermediate'
+					/>
+					{isIntermediate && 
+					<TextField
+						error={props.validate && !newItem.finalWeight ? true : false}
+						helperText={
+							props.validate && !newItem.finalWeight ? 'Pésalo joder!' : ''
+						}
+						type="number"
+						inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+						label="Peso final (Kg)"
+						name="finalWeight"
+						value={Number(newItem.finalWeight)}
+						onChange={handleChange}
+						margin="normal"
+					/>
+					}
 				</Box>
 			</Box>
 		</Box>

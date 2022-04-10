@@ -35,6 +35,10 @@ export default function MainScreen() {
 		setNewMenuItem(oldMenuItem);
 	}
 
+	function removeFinalWeight() {
+		delete newMenuItem.finalWeight
+	}
+
 	function addQuantity(quantity, id) {
 		const matchingItemIndex = newMenuItem.items.findIndex(
 			(item) => item._id === id
@@ -48,12 +52,24 @@ export default function MainScreen() {
 
 	function nextScreen() {
 		if (
-			newMenuItem.name &&
+			(newMenuItem.name &&
 			newMenuItem.rationNumber &&
 			newMenuItem.category &&
-			newMenuItem.items
+			newMenuItem.items &&
+			newMenuItem.prepTime &&
+			!newMenuItem.isIntermediate)
+			||
+			(newMenuItem.name &&
+			newMenuItem.rationNumber &&
+			newMenuItem.category &&
+			newMenuItem.items &&
+			newMenuItem.prepTime &&
+			newMenuItem.isIntermediate &&
+			newMenuItem.finalWeight
+			)
 		) {
 			setScreen(2);
+			!newMenuItem.isIntermediate && removeFinalWeight()
 		} else setValidate(true);
 	}
 
@@ -94,6 +110,7 @@ export default function MainScreen() {
 					stateShare={handleState}
 					validate={validate}
 					newMenuItem={newMenuItem}
+					removeFinalWeight={removeFinalWeight}
 				/>
 			)}
 			{screen === 1 && (
