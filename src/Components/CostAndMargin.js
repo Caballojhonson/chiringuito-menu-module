@@ -32,7 +32,19 @@ export default function CostAndMargin(props) {
         return `${val}%`
     }
 
-    function costPerUnit() {
+// 	function totalCost() {
+// 		const supplementTotalPercentage = 
+// 		newMenuItem.supplements && 
+// 		newMenuItem.supplements.reduce((a,b) => 
+// 		a + Number(b.percentage) ,0)
+
+// 		const totalSupplementCost = supplementTotalPercentage * totalProductCost / 100 
+// 		const totalCost = totalProductCost + totalSupplementCost
+// console.log(totalCost + 'totalcost')
+// 		return Math.ceil(totalCost * 100) / 100
+// 	}
+
+    function totalCost() {
 		const ceilCurrency = (num) => Math.ceil(num * 100) / 100
 
 		const supplementTotalPercentage = 
@@ -41,13 +53,26 @@ export default function CostAndMargin(props) {
 		a + Number(b.percentage) ,0)
 
 		const totalSupplementCost = supplementTotalPercentage * totalProductCost / 100 
-		const productCostPerUnit = totalProductCost / newMenuItem.rationNumber
-		const totalCostPerUnit = productCostPerUnit + (totalSupplementCost / newMenuItem.rationNumber)
+		const totalCost = totalSupplementCost + totalProductCost
 
 		if(supplementTotalPercentage) {
-        return ceilCurrency(totalCostPerUnit)
-		} else return ceilCurrency(productCostPerUnit)
+        return ceilCurrency(totalCost)
+		} else return ceilCurrency(totalProductCost)
     }
+
+	function costPerUnit() {
+		const ceilCurrency = (num) => Math.ceil(num * 100) / 100
+		const totalPricePerUnit = totalCost() / newMenuItem.rationNumber
+		return ceilCurrency(totalPricePerUnit)
+    }
+
+
+	function costPerKilo() {
+		const kilos = newMenuItem.finalWeight
+		const costPerKilo = totalCost() / kilos
+		
+		return Math.ceil(costPerKilo * 100) / 100
+	}
 
     function LinearProgressWithLabel(props) {
         return (
@@ -167,7 +192,7 @@ export default function CostAndMargin(props) {
 					quantity={`${costPerUnit().toFixed(2)}€`}
 				/>
                 <CostItem primary="diferencial" secondary="Beneficio" quantity={(finalPrice - costPerUnit()).toFixed(2) + '€'} />
-
+				<CostItem primary='coste' secondary='Por kilo' quantity={costPerKilo() + '€'} />
 				{/* <CostItem primary='COSTE' secondary='Total escandallo' quantity={`${totalProductCost && totalProductCost.toFixed(2)}€`} /> */}
                 <ProgressBar title='margen de beneficio' value={normalise(margin)} progressLabel={margin}  />
                 <Slider

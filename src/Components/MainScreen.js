@@ -106,33 +106,35 @@ export default function MainScreen() {
 			<CalculatorModal  />
 
 			{screen === 1 && (
-				<NewItemForm
-					stateShare={handleState}
-					validate={validate}
-					newMenuItem={newMenuItem}
-					removeFinalWeight={removeFinalWeight}
-				/>
+				<Box>
+					<NewItemForm
+						stateShare={handleState}
+						validate={validate}
+						newMenuItem={newMenuItem}
+						removeFinalWeight={removeFinalWeight}
+					/>
+					<ItemListForm
+						newMenuItem={newMenuItem}
+						stateShare={handleState}
+						removeItem={removeItem}
+						next={nextScreen}
+						validate={validate}
+					/>
+				</Box>
 			)}
-			{screen === 1 && (
-				<ItemListForm
-					newMenuItem={newMenuItem}
-					stateShare={handleState}
-					removeItem={removeItem}
-					next={nextScreen}
-					validate={validate}
-				/>
-			)}
+
 			{screen === 2 && (
-				<NewProductHeader newMenuItem={newMenuItem} prev={prevScreen} />
+				<Box>
+					<NewProductHeader newMenuItem={newMenuItem} prev={prevScreen} />
+					<QuantityForm 
+					newMenuItem={newMenuItem} 
+					addQuantity={addQuantity} 
+					shareState={handleState}
+					removeSupplement={removeSupplement}
+					/>
+				</Box>
 			)}
-			{screen === 2 && (
-				<QuantityForm 
-				newMenuItem={newMenuItem} 
-				addQuantity={addQuantity} 
-				shareState={handleState}
-				removeSupplement={removeSupplement}
-				/>
-			)}
+
 		</ThemeProvider>
 	);
 }

@@ -1,8 +1,5 @@
 - Fix margin - finalPrice correlation on rounding (Recalculate margin before submitting item to db)
 - Fix prep time format not being added automatically (Force minutes 'm' before submitting if timeFormat key is missing)
-- Add final weight / volume to fix a price per Kg on processed intermediate items
-        (IF intermediate  ==>  Specify final weight and calculate cost / kg & pvp is Kilo)
-- Think about how to adress intermediate processed basic items... 
 
 - Add % merma (Maybe not. Prompt user to use unprocessed weights)
 
@@ -12,8 +9,15 @@
         ==> Quantities: "Please add the quantity you would normally buy, merma included. Orders will be made in these quantities"
         ==> Add supplement: 
 
+- IF is an intermediary, calculate & display price per kilo, send to DB
+
 - Fix inability to add decimals in quant fields in quantityForm
 
+- Fix 0's appearing on empty numeric inputs
+
+// - Add final weight / volume to fix a price per Kg on processed intermediate items
+//         (IF intermediate  ==>  Specify final weight and calculate cost / kg & pvp is Kilo)
+// - Think about how to adress intermediate processed basic items... 
 // - Add a % increment button that adds a percentage to totalCost for certain circumnstances:
 //         - Negligible costs like salt & pepper
 //         - Fried meals (Oil consumption)
