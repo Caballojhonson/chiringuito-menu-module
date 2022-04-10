@@ -19,7 +19,7 @@ export default function NewItemForm(props) {
 		isIntermediate: false,
 		timeFormat: 'm'
 	});
-	const [isIntermediate, setIsIntermediate] = useState(false)
+	const [isIntermediate, setIsIntermediate] = useState(props.newMenuItem.isIntermediate)
 
 	const categories = [
 		'Aperitivo',

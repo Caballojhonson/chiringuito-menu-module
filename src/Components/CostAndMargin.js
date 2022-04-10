@@ -192,7 +192,7 @@ export default function CostAndMargin(props) {
 					quantity={`${costPerUnit().toFixed(2)}€`}
 				/>
                 <CostItem primary="diferencial" secondary="Beneficio" quantity={(finalPrice - costPerUnit()).toFixed(2) + '€'} />
-				<CostItem primary='coste' secondary='Por kilo' quantity={costPerKilo() + '€'} />
+				{newMenuItem.isIntermediate && <CostItem primary='coste' secondary='Por kilo' quantity={costPerKilo() + '€'} />}
 				{/* <CostItem primary='COSTE' secondary='Total escandallo' quantity={`${totalProductCost && totalProductCost.toFixed(2)}€`} /> */}
                 <ProgressBar title='margen de beneficio' value={normalise(margin)} progressLabel={margin}  />
                 <Slider
