@@ -21,7 +21,7 @@ export default function CostAndMargin(props) {
 
     useEffect(() => {
       setFinalPrice(costPerUnit() * margin / 100)
-    }, [totalProductCost, margin, newMenuItem.supplements])  // ADDED MARGIN TO DEPS !!!
+    }, [totalProductCost, margin, newMenuItem])  // ADDED MARGIN TO DEPS !!!
     
 	function handleSlider(e, value) {
 		setMargin(value);
@@ -33,7 +33,27 @@ export default function CostAndMargin(props) {
     }
 
     function costPerUnit() {
-        return totalProductCost / newMenuItem.rationNumber
+		const supplementTotalPercentage = 
+		newMenuItem.supplements && 
+		newMenuItem.supplements.reduce((a,b) => 
+		a + Number(b.percentage) ,0)
+
+		const totalSupplementCost = Math.ceil(supplementTotalPercentage * totalProductCost / 100 * 100) / 100
+		const productCostPerUnit = Math.ceil(totalProductCost / newMenuItem.rationNumber * 100) / 100
+		const totalCostPerUnit = productCostPerUnit + totalSupplementCost
+		const totalCostPerUnitCeil = Math.ceil(totalCostPerUnit * 100) / 100
+
+
+		console.log('Sup Total Percentage: ' + supplementTotalPercentage)
+		console.log('Total supplement cost: ' + totalSupplementCost)
+		console.log('Unitary product cost: ' + productCostPerUnit)
+		console.log('Total product cost: ' + totalCostPerUnit)
+		console.log('MANUAL CALC: ' + (productCostPerUnit + totalSupplementCost))
+
+
+		if(supplementTotalPercentage) {
+        return totalCostPerUnitCeil
+		} else return productCostPerUnit
     }
 
     function LinearProgressWithLabel(props) {

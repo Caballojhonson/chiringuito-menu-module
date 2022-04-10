@@ -66,10 +66,6 @@ export default function QuantityForm(props) {
     return productTotal || 0
     }
 
-	const supplementTotalPercentage = () => newMenuItem.supplements && newMenuItem.supplements.reduce((a,b) => 
-		a + Number(b.percentage)
-	,0)
-
 	const productList = newMenuItem.items.map((item) => {
 		return (
             <Paper elevation={2} sx={{mt:'0.3rem', mb:'0.3rem'}} key={item._id + 'paper'} >

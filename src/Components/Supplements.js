@@ -27,7 +27,6 @@ export default function Supplements(props) {
 
     const [supplement, setSupplement] = useState({})
 	const [supplements, setSupplements] = useState([])
-	const [supplementedTotalCost, setSupplementedTotalCost] = useState('')
     const [showSupplementModal, setShowSupplementModal] = useState(false)
 
     function handleSupplementChange(e) {
