@@ -8,22 +8,13 @@ import NewProductHeader from './NewProductHeader';
 import QuantityForm from './QuantityForm';
 import { ReactCalculator } from 'simple-react-calculator';
 import { IconButton, Modal, Box } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
 import KeyboardBackspaceSharpIcon from '@mui/icons-material/KeyboardBackspaceSharp';
-import SaveIcon from '@mui/icons-material/Save';
 
 export default function MainScreen() {
 	const [newMenuItem, setNewMenuItem] = useState({});
 	const [screen, setScreen] = useState(1);
 	const [validate, setValidate] = useState(false);
 	const [showCalculator, setShowCalculator] = useState(false);
-	const [sending, setSending] = useState(false);
-
-	function mockDBRes(data) {
-		console.log(data);
-		setSending(true);
-		setTimeout(() => setSending(false), 4000);
-	}
 
 	function handleState(obj) {
 		setNewMenuItem({ ...newMenuItem, ...obj });
@@ -144,17 +135,6 @@ export default function MainScreen() {
 						shareState={handleState}
 						removeSupplement={removeSupplement}
 					/>
-					<Box sx={{display: 'flex', justifyContent:'center', mb: 7}}>
-						<LoadingButton
-							loading={sending}
-							loadingPosition="start"
-							startIcon={<SaveIcon />}
-							variant="outlined"
-							onClick={() => mockDBRes(newMenuItem)}
-						>
-							Guardar
-						</LoadingButton>
-					</Box>
 				</Box>
 			)}
 		</ThemeProvider>

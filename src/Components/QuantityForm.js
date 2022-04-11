@@ -14,7 +14,7 @@ import CostAndMargin from './CostAndMargin';
 import Supplements from './Supplements';
 
 export default function QuantityForm(props) {
-	const { newMenuItem } = props;
+	const { newMenuItem, getStats } = props;
 
     const [quantities, setQuantities] = useState(previousQuants() || {})
     const [totalProductCost, setTotalProductCost] = useState(getTotalProductCost())
@@ -124,6 +124,7 @@ export default function QuantityForm(props) {
 				<CostAndMargin 
 				totalProductCost={totalProductCost} 
 				newMenuItem={newMenuItem} 
+				getStats={getStats}
 				/>
 			</Box>
 			}
