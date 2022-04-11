@@ -9,14 +9,22 @@ import {
 
 export default function Submit(props) {
     const {newMenuItem, stats } = props
+
     const [sending, setSending] = useState(false);
 
 
-    function mockDBRes(data) {
-		console.log(data);
+    function mockDBRes() {
+
+        console.log(processData())
 		setSending(true);
 		setTimeout(() => setSending(false), 4000);
 	}
+
+    function processData() {
+        const rawData = { ...newMenuItem, ...stats()}
+        
+        return rawData
+    }
 
   return (
     <div>

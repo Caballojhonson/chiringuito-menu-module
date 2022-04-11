@@ -23,24 +23,25 @@ import Submit from './Submit';
 
 
 export default function CostAndMargin(props) {
-	const { newMenuItem, totalProductCost, getStats } = props;
+	const { newMenuItem, totalProductCost } = props;
 
 	const [margin, setMargin] = useState(300);
 	const [finalPrice, setFinalPrice] = useState(costPerUnit() * margin);
 
 	useEffect(() => {
 		setFinalPrice((costPerUnit() * margin) / 100);
+		getStats()
 	}, [totalProductCost, margin, newMenuItem]); // ADDED MARGIN TO DEPS !!!
 
-	function sendDataToMain() {
-		return {
+	function getStats() {
+		return ( {
 			pvp: finalPrice,
 			totalCost: totalCost(),
 			costPerRation: costPerUnit(),
 			costPerKilo: costPerKilo(),
 			profitPerRation: finalPrice - costPerUnit(),
 			margin: margin,
-		};
+		} )
 	}
 
 	function handleSlider(e, value) {
@@ -243,7 +244,7 @@ export default function CostAndMargin(props) {
 					progressLabel={(costPerUnit() / finalPrice) * 100 || 0}
 				/>
 			</List>
-			<Submit /> 
+			<Submit newMenuItem={newMenuItem} stats={getStats} /> 
 		</Box>
 	);
 }
