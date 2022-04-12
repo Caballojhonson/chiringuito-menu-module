@@ -22,8 +22,30 @@ export default function Submit(props) {
 
     function processData() {
         const rawData = { ...newMenuItem, ...stats()}
+		
+		const ceil2Int = (num) => Math.ceil(num * 100) / 100 
+		
+		
+		rawData.finalWeight = Number(rawData.finalWeight)
+		rawData.prepTime = Number(rawData.prepTime)
+		rawData.rationNumber = Number(rawData.rationNumber)
+		
+		if(!rawData.timeFormat) rawData.timeFormat = 'm'
+
+		rawData.profitPerRation = ceil2Int(rawData.profitPerRation)
+		
         
-        return rawData
+		rawData.pvp = ceil2Int(rawData.pvp)
+		rawData.timestamp = new Date()
+		rawData.ingredients = rawData.items.map(item => item._id)
+		rawData.quantities = rawData.items.map(item => {
+			return {
+				ingredient: item._id,
+				quantity: item.quantity
+			}
+		})
+
+		return rawData
     }
 
   return (

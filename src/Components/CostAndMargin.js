@@ -26,10 +26,12 @@ export default function CostAndMargin(props) {
 	const { newMenuItem, totalProductCost } = props;
 
 	const [margin, setMargin] = useState(300);
-	const [finalPrice, setFinalPrice] = useState(costPerUnit() * margin);
+	const [finalPrice, setFinalPrice] = useState(Math.round(Math.ceil(costPerUnit() * margin) / 100 * 10)  / 10);
 
 	useEffect(() => {
-		setFinalPrice((costPerUnit() * margin) / 100);
+		//setFinalPrice(Math.ceil((costPerUnit() * margin / 100 * 100)) / 100);
+		setFinalPrice(Math.round(Math.ceil(costPerUnit() * margin) / 100 * 10)  / 10)
+		//setFinalPrice((Math.round(finalPrice * 10) / 10))
 		getStats()
 	}, [totalProductCost, margin, newMenuItem]); // ADDED MARGIN TO DEPS !!!
 
