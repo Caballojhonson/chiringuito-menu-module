@@ -15,12 +15,12 @@ export default function Submit(props) {
 
     function mockDBRes() {
 
-        console.log(processData())
+        console.log(sanitizeData())
 		setSending(true);
 		setTimeout(() => setSending(false), 4000);
 	}
 
-    function processData() {
+    function sanitizeData() {
         const rawData = { ...newMenuItem, ...stats()}
 		
 		const ceil2Int = (num) => Math.ceil(num * 100) / 100 
@@ -41,9 +41,19 @@ export default function Submit(props) {
 		rawData.quantities = rawData.items.map(item => {
 			return {
 				ingredient: item._id,
-				quantity: item.quantity
+				quantity: Number(item.quantity)
 			}
 		})
+		rawData.supplements = rawData.supplements.map(item => {
+			delete item.id
+			
+			return {
+				concept: item.concept,
+				percentage: Number(item.percentage)
+			}
+		})
+
+		delete rawData.items
 
 		return rawData
     }
